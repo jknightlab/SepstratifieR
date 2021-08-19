@@ -1,13 +1,13 @@
 stratifyPatients <- function(dat, k=50){
 
   # Verifying that predictors are present
-  if( sum(!model_rf$coefnames %in% colnames(dat)) > 0 ) {
+  if( sum(!colnames(SepstratifieR::reference_set) %in% colnames(dat)) > 0 ) {
     cat("\nERROR: Some predictors are missing. Make sure the input matrix contains the following columns:\n")
-    cat(model_rf$coefnames)
+    cat(colnames(SepstratifieR::reference_set))
     cat("\n")
     stop()
   }
-  dat <- dat[,model_rf$coefnames]
+  dat <- dat[,colnames(SepstratifieR::reference_set)]
 
   # Aligning data to the reference set
   merged_set <- data.frame(rbind(dat, SepstratifieR::reference_set))
@@ -21,18 +21,18 @@ stratifyPatients <- function(dat, k=50){
   outliers <- !(1:nrow(dat) %in% mnn_res@metadata$merge.info$pairs[[1]]$right)
 
   # Predicting labels
-  preds <- stats::predict(model_rf, aligned_dat, type="raw")
-  pred_probs <- stats::predict(model_rf, aligned_dat, type="prob")
-  preds_TRS <- stats::predict(model_rf_TRS, aligned_dat)
+  preds <- stats::predict(SepstratifieR::SRS_model, aligned_dat, type="raw")
+  pred_probs <- stats::predict(SepstratifieR::SRS_model, aligned_dat, type="prob")
+  preds_TRS <- stats::predict(SepstratifieR::SRSq_model, aligned_dat)
 
   res <- list(
     raw_predictors = dat,
     aligned_predictors = aligned_dat,
     aligned_set = aligned_set,
-    predictions = preds,
-    prediction_probs = pred_probs,
-    predicted_TRS = preds_TRS,
-    potential_outlier = outliers
+    SRS_predictions = preds,
+    SRS_prediction_probs = pred_probs,
+    SRSq_predictions = preds_TRS,
+    is_outlier = outliers
   )
 
   return(res)
