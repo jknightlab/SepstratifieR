@@ -1,5 +1,5 @@
 Package: SepstratifieR
-Title: Stratify infectious disease patients by severity based on their whole blood gene expression profile
+Title: Stratification of infectious disease patients by gene expression profile
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Eddie",
