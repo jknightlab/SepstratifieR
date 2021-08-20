@@ -59,9 +59,3 @@ predictions
 #> SRS: SRS3, SRS3, SRS1, SRS3, ...
 #> SRSq: 0.07322879, 0.1849735, 0.8394905, 0.08564241, ...
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
