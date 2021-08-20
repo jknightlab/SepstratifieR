@@ -35,31 +35,34 @@ stratifyPatients <- function(dat, k=50, verbose=T){
 
   outliers <- !(1:nrow(dat) %in% mnn_res@metadata$merge.info$pairs[[1]]$right)
 
-  # Predicting labels
+  # Predicting SRS labels
   if(verbose) {
     cat("\nStratifying samples into sepsis response signature (SRS) groups...")
   }
-  preds <- stats::predict(SepstratifieR::SRS_model, aligned_dat, type="raw")
-  pred_probs <- stats::predict(SepstratifieR::SRS_model, aligned_dat, type="prob")
+  SRS_preds <- stats::predict(SepstratifieR::SRS_model, aligned_dat, type="raw")
+  SRS_probs <- stats::predict(SepstratifieR::SRS_model, aligned_dat, type="prob")
 
   if(verbose) {
     cat("\nAssigning samples a qunatitative sepsis response signature score (SRSq)...")
   }
 
-  preds_TRS <- stats::predict(SepstratifieR::SRSq_model, aligned_dat)
+  SRSq_preds <- stats::predict(SepstratifieR::SRSq_model, aligned_dat)
 
-  res <- list(
-    raw_predictors = dat,
-    aligned_predictors = aligned_dat,
-    aligned_set = aligned_set,
-    SRS_predictions = preds,
-    SRS_prediction_probs = pred_probs,
-    SRSq_predictions = preds_TRS,
-    is_outlier = outliers
+  # Returning results
+  res <- SepstratifieR::SepsisPrediction(
+
+    predictors_raw=dat,
+    predictors_transformed=aligned_dat,
+    aligned_set=aligned_set,
+    SRS=SRS_preds,
+    SRS_probs=SRS_probs,
+    SRSq=SRSq_preds,
+    is_outlier=outliers
+
   )
 
   if(verbose) {
-    cat("\n... done!\n")
+    cat("\n... done!\n\n")
   }
 
   return(res)
