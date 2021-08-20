@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "ecg@well.ox.ac.uk",
            comment = c(ORCID = "0000-0003-2753-1226"))
-Description: What the package does (one paragraph).
+Description: Patients with sepsis or severe infection are often very different from one another. Stratifying them into groups with different molecular characteristics can be of great clinical utility. The SepstratifieR package provides easy access to a set of models trained to classify patients into molecular groups with different risks of mortality. These predictions are based on a signature of seven genes which measured in whole blood: ARL14EP (ENSG00000152219), CCNB1IP1 (ENSG00000100814), DYRK2 (ENSG00000127334), ADGRE3 (ENSG00000131355), MDC1 (ENSG00000137337), TDRD9 (ENSG00000156414), and ZAP70 (ENSG00000115085).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
