@@ -18,13 +18,13 @@ setMethod("show",
             cat(ncol(object@predictors_raw)," predictor variables\n\n", sep="")
             if(nrow(object@predictors_raw) > 0) {
               cat("Predictor variables: ")
-              cat(head(rownames((object@predictors_raw)), n=4),"...\n", sep=", ")
+              cat(utils::head(rownames((object@predictors_raw)), n=4),"...\n", sep=", ")
               cat("Sample names: ")
-              cat(head(colnames((object@predictors_raw)), n=4),"...\n", sep=", ")
+              cat(utils::head(colnames((object@predictors_raw)), n=4),"...\n", sep=", ")
               cat("SRS: ")
-              cat(head(as.character(object@SRS), n=4),"...\n", sep=", ")
+              cat(utils::head(as.character(object@SRS), n=4),"...\n", sep=", ")
               cat("SRSq: ")
-              cat(head(object@SRSq, n=4),"...\n", sep=", ")
+              cat(utils::head(object@SRSq, n=4),"...\n", sep=", ")
             }
           }
 )
@@ -32,7 +32,7 @@ setMethod("show",
 # Creating a constructor SepsisPrediction method
 SepsisPrediction <- function(predictors_raw=NULL, predictors_transformed=NULL, aligned_set=NULL, SRS=NULL, SRS_probs=NULL, SRSq=NULL, is_outlier=NULL) {
 
-  new(
+  methods::new(
     "SepsisPrediction",
     predictors_raw = data.frame(predictors_raw),
     predictors_transformed = data.frame(predictors_transformed),

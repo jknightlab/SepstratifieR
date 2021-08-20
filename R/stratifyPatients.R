@@ -25,7 +25,7 @@ stratifyPatients <- function(dat, k=50, verbose=T){
                        rep(1,nrow(SepstratifieR::reference_set)))
   mnn_res <- batchelor::mnnCorrect(t(merged_set), batch = alignment_batch, merge.order = list(1,2), k=k)
 
-  aligned_set <- data.frame(t(assay(mnn_res)))
+  aligned_set <- data.frame(t(SummarizedExperiment::assay(mnn_res)))
   aligned_dat <- aligned_set[1:nrow(dat),]
 
   # Identifying potential outliers
