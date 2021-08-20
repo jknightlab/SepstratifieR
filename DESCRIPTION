@@ -19,4 +19,5 @@ Imports:
     batchelor,
     stats,
     caret,
-    randomForest
+    randomForest,
+    dplyr
