@@ -14,13 +14,13 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends: 
-    R (>= 2.10)
+    R (>= 3.6)
 Imports: 
-    batchelor,
-    caret,
-    randomForest,
-    dplyr,
-    SummarizedExperiment,
+    batchelor (>= 1.8),
+    caret (>= 6.0),
+    randomForest (>= 4.6),
+    dplyr (>= 1.0),
+    SummarizedExperiment (>= 1.22),
     stats,
     methods,
     utils
