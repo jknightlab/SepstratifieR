@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of SepstratifieR is to stratifying patients with suspected
+The goal of SepstratifieR is to stratify patients with suspected
 infection into groups with different molecular characteristics. This is
 done based on the expression level of 7 genes measured from whole blood.
 
