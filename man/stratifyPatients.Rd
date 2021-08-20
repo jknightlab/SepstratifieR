@@ -45,8 +45,8 @@ We recommend removing any technical batch effects from the input data set before
 
 For more information on how SRS groups were originally defined, please refer to the following publications:
 
-\code{\link{https://doi.org/10.1016/S2213-2600(16)00046-1}}
-\code{\link{https://doi.org/10.1164/rccm.201608-1685OC}}
+https://doi.org/10.1016/S2213-2600(16)00046-1
+https://doi.org/10.1164/rccm.201608-1685OC
 }
 \examples{
 # Load test data set
