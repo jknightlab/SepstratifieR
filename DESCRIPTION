@@ -17,7 +17,10 @@ Depends:
     R (>= 2.10)
 Imports: 
     batchelor,
-    stats,
     caret,
     randomForest,
-    dplyr
+    dplyr,
+    SummarizedExperiment,
+    stats,
+    methods,
+    utils
