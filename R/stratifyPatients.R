@@ -1,12 +1,17 @@
 stratifyPatients <- function(dat, k=50, verbose=T){
 
   # Verifying that predictors are present
-  if( sum(!colnames(SepstratifieR::reference_set) %in% colnames(dat)) > 0 ) {
-    cat("\nERROR: Some predictors are missing. Make sure the input matrix contains the following columns:\n")
-    cat(colnames(SepstratifieR::reference_set))
-    cat("\n")
-    stop()
+  if(verbose) {
+    cat("\nFetching predictor variables...\n")
   }
+
+  if( sum(!colnames(SepstratifieR::reference_set) %in% colnames(dat)) > 0 ) {
+    stop(paste("The following variables are missing from the input data set: ",
+               dplyr::setdiff(colnames(SepstratifieR::reference_set), colnames(dat)),
+               "\n", sep="")
+         )
+  }
+
   dat <- dat[,colnames(SepstratifieR::reference_set)]
 
   # Aligning data to the reference set
