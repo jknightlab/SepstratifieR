@@ -52,7 +52,7 @@ stratifyPatients <- function(dat, k=20, verbose=T){
 
   # Verifying that predictors are present
   if(verbose) {
-    cat("\nFetching predictor variables...\n")
+    cat("Fetching predictor variables...\n")
   }
 
   if( sum(!colnames(SepstratifieR::reference_set) %in% colnames(dat)) > 0 ) {
@@ -93,7 +93,7 @@ stratifyPatients <- function(dat, k=20, verbose=T){
   SRS_probs <- stats::predict(SRS_model, aligned_dat, type="prob")
 
   if(verbose) {
-    cat("\nAssigning samples a qunatitative sepsis response signature score (SRSq)...")
+    cat("\nAssigning samples a quantitative sepsis response signature score (SRSq)...")
   }
 
   SRSq_preds <- stats::predict(SRSq_model, aligned_dat)
