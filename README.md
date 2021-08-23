@@ -37,7 +37,7 @@ There are three SRS groups, which are as follows:
 SRS1 = Composed of sepsis patients with an immunosupressed profile.
 These individuals are often at high risk of mortality.
 
-SRS2 = Composed of sepsis patients with an immunocompoetent profiles.
+SRS2 = Composed of sepsis patients with an immunocompetent profile.
 These individuals are at lower risk of mortality.
 
 SRS3 = Formed of healthy individuals or patients with mild infection.
@@ -101,6 +101,21 @@ library(SepstratifieR)
 
 # Load test data set
 data(test_data)
+head(test_data)
+#>    ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
+#> S1        4.499107        3.552789        7.109587        6.373346
+#> S2        4.493463        2.979029        6.662566        7.470909
+#> S3        1.818217        1.734784        4.287421        4.773698
+#> S4        4.427566        3.428981        7.020407        6.907529
+#> S5        3.838385        2.493723        6.231407        6.879473
+#> S6        3.615767        2.676370        6.097294        6.826183
+#>    ENSG00000137337 ENSG00000156414 ENSG00000115085
+#> S1        5.209295        2.409573        7.580670
+#> S2        4.749761        2.385871        7.188429
+#> S3        3.400658        7.276258        6.020243
+#> S4        4.771820        2.663943        7.294884
+#> S5        4.421719        5.187547        6.504479
+#> S6        4.477259        6.110346        7.350919
 
 # Stratify patients
 predictions <- stratifyPatients(test_data)
