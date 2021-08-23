@@ -23,4 +23,5 @@ Imports:
     SummarizedExperiment (>= 1.22),
     stats,
     methods,
-    utils
+    utils,
+    ggplot2 (>= 3.3)

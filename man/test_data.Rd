@@ -18,6 +18,9 @@ A data frame with 25 rows and 7 variables:
 ...
 }
 }
+\source{
+https://www.medrxiv.org/content/10.1101/2021.05.11.21256877v1
+}
 \usage{
 test_data
 }
@@ -25,8 +28,7 @@ test_data
 A data set containing gene expression measurements from whole blood for the 7 SRS signature genes.
 }
 \details{
-This data set is formed of 25 patients randomly selected from the COVID-19 Blood Cell Atlas (COMBAT) study (Oxford, UK).
-Gene expression was profiled using total RNA-sequencing.
+This data set is formed of 25 patients randomly selected from the COVID-19 Multi-omics Blood Atlas (COMBAT) study (Oxford, UK).
 
 The values reported in this data set were obtained after batch correction and log transformation of the raw RNA-seq counts.
 

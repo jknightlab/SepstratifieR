@@ -129,6 +129,8 @@ predictions <- stratifyPatients(test_data)
 #> ... done!
 ```
 
+The results from this prediction look as follows:
+
 ``` r
 predictions
 #> SepsisPrediction
@@ -141,6 +143,16 @@ predictions
 #> SRS: SRS3, SRS3, SRS1, SRS3, ...
 #> SRSq: 0.07322879, 0.1849735, 0.8394905, 0.08564241, ...
 ```
+
+Futhermore, you can use SepstratifieR’s built-in plotting function to
+check whether the input samples were successfully mapped to the
+reference set and if there are any clear outliers.
+
+``` r
+plotAlignedSamples(predictions)
+```
+
+<img src="man/figures/README-example_plot-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## Contact
 

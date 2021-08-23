@@ -84,8 +84,15 @@ head(test_data)
 predictions <- stratifyPatients(test_data)
 ```
 
+The results from this prediction look as follows:
 ```{r example_output}
 predictions
+```
+
+Futhermore, you can use SepstratifieR's built-in plotting function to check whether the input samples were successfully mapped to the reference set and if there are any clear outliers.
+
+```{r example_plot}
+plotAlignedSamples(predictions)
 ```
 
 ## Contact

@@ -17,14 +17,44 @@ A data frame with 3264 rows and 7 variables:
 
 ...
 }
+
+A data frame with 3264 rows and 7 variables:
+\describe{
+\item{ENSG00000152219}{ARL14EP, cosine-scaled, batch corrected gene expression level}
+\item{ENSG00000100814}{CCNB1IP1, cosine-scaled, batch corrected gene expression level}
+\item{ENSG00000127334}{DYRK2, cosine-scaled, batch corrected gene expression level}
+\item{ENSG00000131355}{ADGRE3, cosine-scaled, batch corrected gene expression level}
+\item{ENSG00000137337}{MDC1, cosine-scaled, batch corrected gene expression level}
+\item{ENSG00000156414}{TDRD9, cosine-scaled, batch corrected gene expression level}
+\item{ENSG00000115085}{ZAP70, cosine-scaled, batch corrected gene expression level}
+
+...
+}
 }
 \usage{
+reference_set
+
 reference_set
 }
 \description{
 A data set containing gene expression measurements from whole blood for the 7 SRS signature genes.
+
+A data set containing gene expression measurements from whole blood for the 7 SRS signature genes.
 }
 \details{
+This data set is formed of 1,609 samples from healthy individuals and 1,655 samples from sepsis patients.
+
+Sepsis patients were recruited as a part of the Genomic Advances in Sepsis (GAinS) study in Oxford, UK. Of these, 676 were profiled using the Illumina HumanHT microarray, 864 using polyA-based RNA-sequencing, and 115 using qPCR.
+
+Healthy individual data was collected from a number of publicly available sources. In particular, 991 OIllumina HumanHT microarray samples were obtained from the SHIP-TREND consortium, 518 Illumina HumanHT microarray samples were obatained from the DILGOM cohort (an extension of the FINRISK study), and 100 polyA-based RNA-sequencing samples were obtained from the dutch 500FG cohort
+
+RNa-seq data was log-transformed and any relevant batch effects were removed using the combat algorithm.
+Finally, the 7 SRS signature genes were extracted from each cohort and the data was integrated together using the mutual nearest neighbout (mNN) algorithm.
+
+The values reported in this data set were obtained after mNN alignment, and thus they represent Cosine-scale batch-corrected values.
+
+The main use of this data set is to serve as a reference to which new input samples can be aligned before prediction of SRS group using random forest models.
+
 This data set is formed of 1,609 samples from healthy individuals and 1,655 samples from sepsis patients.
 
 Sepsis patients were recruited as a part of the Genomic Advances in Sepsis (GAinS) study in Oxford, UK. Of these, 676 were profiled using the Illumina HumanHT microarray, 864 using polyA-based RNA-sequencing, and 115 using qPCR.
