@@ -24,4 +24,7 @@ Imports:
     stats,
     methods,
     utils,
-    ggplot2 (>= 3.3)
+    ggplot2 (>= 3.3),
+    grDevices (>= 4.1),
+    MatrixGenerics (>= 1.4),
+    pheatmap (>= 1.0)

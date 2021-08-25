@@ -7,7 +7,7 @@
 stratifyPatients(dat, k = 20, verbose = T)
 }
 \arguments{
-\item{dat}{A data.frame containing 'n' samples (rows) x 7 genes (columns).}
+\item{dat}{A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.}
 
 \item{k}{A numeric value specifying the number of nearest neighbours used to align the input to the reference data.}
 
