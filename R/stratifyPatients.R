@@ -35,7 +35,7 @@
 #'  \item{predictors_raw}{data.frame containing the predictor variables as directly extracted from the user's input.}
 #'  \item{predictors_transformed}{data.frame containing the predictor variables after mNN-based alignment with the reference set.}
 #'  \item{algined_set}{data.frame containing both the user's input data and the reference set, aligned together using mNN.}
-#'  \item{is_outlier}{logical variable indicating whether each sample is believed to be a potential outlier. Outliers are defined as any samples for which no mutual nearest neighbours were found in the reference set when applying the mNN algorithm.}
+#'  \item{mNN_outlier}{logical variable indicating whether each sample is believed to be a potential outlier. Outliers are defined as any samples for which no mutual nearest neighbours were found in the reference set when applying the mNN algorithm.}
 #' }
 #'
 #' @export
@@ -107,7 +107,7 @@ stratifyPatients <- function(dat, k=20, verbose=T){
     SRS=SRS_preds,
     SRS_probs=SRS_probs,
     SRSq=SRSq_preds,
-    is_outlier=outliers
+    mNN_outlier=outliers
 
   )
 

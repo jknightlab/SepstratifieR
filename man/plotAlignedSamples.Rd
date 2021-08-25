@@ -9,7 +9,7 @@ plotAlignedSamples(preds, color_by = "SRS")
 \arguments{
 \item{preds}{A sepsisPrediction object containing the output from the stratifyPatients() function}
 
-\item{color_by}{Variable by which data points should be coloured. Must be one of the following: "SRS", "SRSq", and "is_outlier"}
+\item{color_by}{Variable by which data points should be coloured. Must be one of the following: "SRS", "SRSq", and "mNN_outlier"}
 }
 \value{
 A plot showing the distribution of input and reference samples in PCA space. This plot is a ggplot object.
@@ -22,7 +22,7 @@ This function can be used to check whether a set of input samples was successful
 
 When called, this function performs principal component analysis on the aligned data (i.e. an integrated set containing both the user's input and the reference samples).
 Next, the first two principal components are plotted. Reference samples are plotted in the background with low transparency, with the user's input samples as darker points in the foreground.
-The user can specify which variable to color the data points by. Three options are available: "SRS", "SRSq" and "is_outlier" This last ooption is useful when assessing if a subset of samples flagged as outliers should be excluded.
+The user can specify which variable to color the data points by. Three options are available: "SRS", "SRSq" and "mNN_outlier" This last ooption is useful when assessing if a subset of samples flagged as outliers should be excluded.
 }
 \examples{
 # Load test data set

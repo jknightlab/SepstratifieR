@@ -6,7 +6,7 @@ setClass("SepsisPrediction",
                     SRS = "factor",
                     SRS_probs = "data.frame",
                     SRSq = "numeric",
-                    is_outlier = "logical")
+                    mNN_outlier = "logical")
 )
 
 # Defining methods associated with the SepsisPrediction class
@@ -30,7 +30,7 @@ setMethod("show",
 )
 
 # Creating a constructor SepsisPrediction method
-SepsisPrediction <- function(predictors_raw=NULL, predictors_transformed=NULL, aligned_set=NULL, SRS=NULL, SRS_probs=NULL, SRSq=NULL, is_outlier=NULL) {
+SepsisPrediction <- function(predictors_raw=NULL, predictors_transformed=NULL, aligned_set=NULL, SRS=NULL, SRS_probs=NULL, SRSq=NULL, mNN_outlier=NULL) {
 
   methods::new(
     "SepsisPrediction",
@@ -40,7 +40,7 @@ SepsisPrediction <- function(predictors_raw=NULL, predictors_transformed=NULL, a
     SRS = factor(SRS),
     SRS_probs = data.frame(SRS_probs),
     SRSq = as.numeric(SRSq),
-    is_outlier = as.logical(is_outlier)
+    mNN_outlier = as.logical(mNN_outlier)
   )
 
 }
