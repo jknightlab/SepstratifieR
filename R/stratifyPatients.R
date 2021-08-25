@@ -4,7 +4,7 @@
 #' sepsis response score (SRSq) for each of them.
 #'
 #' @param dat A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.
-#' @param k A numeric value specifying the number of nearest neighbours used to align the input to the reference data.
+#' @param k A numeric value specifying the number of nearest neighbours used to align the input to the reference data. Higher values of k will result in a more aggressive integration but can result in missed outliers. In contrast, lower values of k will retain more substructure in the input data, but can result in some samples being incorrectly flagged as outliers. We recommend setting 'k' to a value between 20% and 30% of the total number of input samples. For more information on this paramter, see the general package documentation.
 #' @param verbose A logical value indicating whether or not to print a step by step summary of the function's progress.
 #'
 #' @details
