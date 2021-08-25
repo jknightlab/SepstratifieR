@@ -18,6 +18,14 @@ You can install the development version of SepstratifieR from
 [GitHub](https://github.com/) with:
 
 ``` r
+# Install dependencies
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+    
+BiocManager::install("batchelor")
+
+
+# Install SepstratifieR
 # install.packages("devtools")
 devtools::install_github("jknightlab/SepstratifieR")
 ```
@@ -328,12 +336,12 @@ test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm
 
 tail(test_data)
 #>      ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
-#> s145       12.568378        2.593291        3.894594        6.461857
-#> s146       11.725538        2.341779        3.322335        6.210055
-#> s147       12.486528        1.407762        4.102318        4.683783
-#> s148       11.733198        1.844906        2.369607        6.635254
-#> s149       11.767252        2.905245        3.302671        6.497499
-#> s150        9.790996        2.375474        4.327059        7.139205
+#> s145        12.13944        2.593291        3.894594        6.461857
+#> s146        10.89178        2.341779        3.322335        6.210055
+#> s147        10.23396        1.407762        4.102318        4.683783
+#> s148        10.35916        1.844906        2.369607        6.635254
+#> s149        11.84333        2.905245        3.302671        6.497499
+#> s150        11.66735        2.375474        4.327059        7.139205
 #>      ENSG00000137337 ENSG00000156414 ENSG00000115085
 #> s145        2.854003        4.667498        4.960511
 #> s146        2.817602        7.331545        5.882990

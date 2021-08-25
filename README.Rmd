@@ -28,6 +28,14 @@ License: MIT + file LICENSE
 You can install the development version of SepstratifieR from [GitHub](https://github.com/) with:
 
 ``` r
+# Install dependencies
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+    
+BiocManager::install("batchelor")
+
+
+# Install SepstratifieR
 # install.packages("devtools")
 devtools::install_github("jknightlab/SepstratifieR")
 ```
