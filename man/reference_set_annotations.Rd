@@ -11,7 +11,7 @@ A data frame with 3264 rows and 5 variables:
 \item{Assay}{Type of technology used to measure gene expresison in that sample}
 \item{SRS}{Predicted sepsis response signature (SRS) group for that sample}
 \item{SRSq}{Predicted sepsis response signature score (SRSq) for that sample}
-\item{is_outlier}{Indicates whether the sample is outlying. (FALSE for all samples in the reference set).}
+\item{mNN_outlier}{Indicates whether the sample is outlying. (FALSE for all samples in the reference set).}
 ...
 }
 }

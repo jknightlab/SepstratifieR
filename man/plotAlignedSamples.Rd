@@ -4,10 +4,12 @@
 \alias{plotAlignedSamples}
 \title{Visualise how input samples align to the reference set using PCA}
 \usage{
-plotAlignedSamples(preds, color_by = "SRS")
+plotAlignedSamples(preds, pcs = c(1, 2), color_by = "SRS")
 }
 \arguments{
 \item{preds}{A sepsisPrediction object containing the output from the stratifyPatients() function}
+
+\item{pcs}{A vector of length 2, specifying which principal components should be plotted}
 
 \item{color_by}{Variable by which data points should be coloured. Must be one of the following: "SRS", "SRSq", and "mNN_outlier"}
 }
@@ -18,7 +20,7 @@ A plot showing the distribution of input and reference samples in PCA space. Thi
 Visualise how input samples align to the reference set using PCA
 }
 \details{
-This function can be used to check whether a set of input samples was successfullt mapped to the reference set.
+This function can be used to check whether a set of input samples was successfully mapped to the reference set.
 
 When called, this function performs principal component analysis on the aligned data (i.e. an integrated set containing both the user's input and the reference samples).
 Next, the first two principal components are plotted. Reference samples are plotted in the background with low transparency, with the user's input samples as darker points in the foreground.
