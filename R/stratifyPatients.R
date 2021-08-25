@@ -3,7 +3,7 @@
 #' Given a set of samples, classify them into one of three sepsis response signature (SRS) groups and predict a quantitative
 #' sepsis response score (SRSq) for each of them.
 #'
-#' @param dat A data.frame containing 'n' samples (rows) x 7 genes (columns).
+#' @param dat A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.
 #' @param k A numeric value specifying the number of nearest neighbours used to align the input to the reference data.
 #' @param verbose A logical value indicating whether or not to print a step by step summary of the function's progress.
 #'
