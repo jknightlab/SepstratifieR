@@ -69,7 +69,7 @@ If more columns are present, they will simply be ignored.
 
 We recommend removing any technical batch effects from the input data set before calling this function. In addition, the predictor variables should have a roughly symmetric distribution. Thus, a transformation step is often useful. While this is often not a problem for microarray data sets, we recommend log-transforming any RNA-sequencing and qPCR data before prediction.
 
-## Example code
+## A brief example
 Below is a basic example which shows you how to use this package to stratify a small set of patients into sepsis reponse groups:
 
 ```{r example}
@@ -94,6 +94,49 @@ Futhermore, you can use SepstratifieR's built-in plotting function to check whet
 ```{r example_plot}
 plotAlignedSamples(predictions)
 ```
+
+## Setting the number of mutual nearest neighbout (k)
+Perhaps the most important parameter to take into account when performing patient stratification is the number of mutual nearest neighbouts in the data alignment step (k). The impact of this parameter on data integration has been previously summarized in the documentation of mNN (https://rdrr.io/github/LTLA/batchelor/man/fastMNN.html).
+
+In brief, lower values of 'k' will retain more substructure in the input data, with samples that do not closely resemble the reference set being flagged as outliers (i.e. samples for which no mutual nearest neighbor was found). Conversely, higher values of 'k' will result in a more lenient and aggressive merging, where samples are forced to align with the reference data even if they differ in certain aspects. Higher values of 'k' often result in better performance of data integration, but can also cause outliers to pass undetected, especially when a small group of samples is not well represented in the reference set. 
+
+The authors of mNN suggest that 'k' be set to the expected size for the smallest subpopulation. Based on the proportion of individuals from different sepsis response (SRS) groups previously reported in the context of a sepsis patients in intensive care, we recommend that this parameter be set to 20-30% the number of input samples. However, please not that this value might not be ideal if you are using this algorithm in a different patient population.
+
+In the section below we explain how to assess if the predictions obtained with SepstratifieR are robust to the choice of 'k'.
+
+## Running a sensitivity analysis
+It is often unclear which value of 'k' is appropriate for a specific analysis. Moreover, if 'k' is low, many samples might be flagged as potential outliers by SepstratifieR, and it can be difficult to distinguish whether they are true outliers or simply samples which remained unmapped in the mNN step. 
+
+The best way to tackle both of these problems is by performing a sensitivity analysis. In this analysis, patient stratification and SRS prediction are repeatedly performed for a range of 'k' values, and the results from each iteration  are compared to each other so as to assess their stability. 
+
+SepstratifieR has a built in function for sensitivity analysis. You can run this function on the same input use for patient stratification, as shown below:
+```{r sensitivity_analysis_example}
+sensitivity_results <- runSensitivityAnalysis(test_data)
+```
+
+The heatmap above clearly shows that the quantitative predictions from SepstratifieR (SRSq) are robust to the choice of 'k', as they do not seem to change. In addition, when computing the variability in predicted SRSq scores across all of the evaluated values of 'k', we obtain a very low variance, as shown in the scatter plot. Finally, because samples flagged as outliers are randomly distributed in the plot and do not show a higher variance compared to the rest of the data, we can be fairly confident that they are not true outliers.
+
+Now let's see how this would look like if a group of outlier samples were present in the input data.
+
+We begin by artificially increasing the expression levels of ARL14EP for the last 30 samples in the data set.
+```{r create_outliers}
+test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm(30, mean=8, sd=1)
+
+tail(test_data)
+```
+
+These samples should now act as a subgruop of outliers and, indeed, they very clearly separate along PC3.
+```{r plot_pca_with_outliers}
+preds <- stratifyPatients(test_data, verbose=F)
+plotAlignedSamples(preds, pcs=c(1,3), color_by = "mNN_outlier")
+```
+
+To confirm this, let's now re-run the sensitivity analysis on this data set. Notice how now the scatter plot clearly shows that the group of samples set as outliers has higher variance in their SRSq estimations. Indeed, most of them are correctly flagged as outliers during mNN alignment. You can also see this in the heatmap, where the SRSq value estimated for the outlier samples abruptly decreases as 'k' increases.
+```{r sensitivity_analysis_with_outliers}
+sensitivity_results <- runSensitivityAnalysis(test_data)
+```
+
+Under this last scenario, the sensitivity analysis suggests we should exclude at least a subset of the samples flagged as outliers. 
 
 ## Contact
 Eddie Cano-Gamez:  ecg@well.ox.ac.uk
