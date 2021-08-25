@@ -85,18 +85,18 @@
 "reference_set"
 
 
-#' Whole blood gene expression measurements of 25 individuals
+#' Whole blood gene expression measurements of 150 individuals
 #'
 #' A data set containing gene expression measurements from whole blood for the 7 SRS signature genes.
 #'
-#' This data set is formed of 25 patients randomly selected from the COVID-19 Multi-omics Blood Atlas (COMBAT) study (Oxford, UK).
+#' This data set is formed of 150 patients randomly selected from the Genomic Advances in Sepsis (GAinS) study (Oxford, UK).
 #'
-#' The values reported in this data set were obtained after batch correction and log transformation of the raw RNA-seq counts.
+#' The values reported in this data set were obtained after batch correction and log transformation of raw RNA-seq counts obtained using polyA-based RNA-sequencing.
 #'
-#' The main use of this data set is to serve as a small test set with which to test the functionality of this package.
+#' The main use of this data set is to serve as a small test set with which to assess the functionality of this package.
 #'
 #'
-#' @format A data frame with 25 rows and 7 variables:
+#' @format A data frame with 150 rows and 7 variables:
 #' \describe{
 #'   \item{ENSG00000152219}{ARL14EP, log-transformed gene expression level}
 #'   \item{ENSG00000100814}{CCNB1IP1, log-transformedgene expression level}
@@ -109,6 +109,5 @@
 #'   ...
 #' }
 #'
-#' @source https://www.medrxiv.org/content/10.1101/2021.05.11.21256877v1
 #'
 "test_data"
