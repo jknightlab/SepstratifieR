@@ -33,7 +33,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
     
 BiocManager::install("batchelor")
-
+BiocManager::install("MatrixGenerics")
 
 # Install SepstratifieR
 # install.packages("devtools")
