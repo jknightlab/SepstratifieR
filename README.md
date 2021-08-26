@@ -162,13 +162,13 @@ plotAlignedSamples(predictions)
 
 <img src="man/figures/README-example_plot-1.png" width="100%" style="display: block; margin: auto;" />
 
-## Setting the number of mutual nearest neighbout (k)
+## Setting the number of mutual nearest neighbours (k)
 
 Perhaps the most important parameter to take into account when
 performing patient stratification is the number of mutual nearest
-neighbouts in the data alignment step (k). The impact of this parameter
+neighbours in the data alignment step (k). The impact of this parameter
 on data integration has been previously summarized in the documentation
-of mNN (<https://rdrr.io/github/LTLA/batchelor/man/fastMNN.html>).
+of mNN (<https://rdrr.io/github/LTLA/batchelor/man/mnnCorrect.html>).
 
 In brief, lower values of ‘k’ will retain more substructure in the input
 data, with samples that do not closely resemble the reference set being
@@ -183,7 +183,7 @@ samples is not well represented in the reference set.
 The authors of mNN suggest that ‘k’ be set to the expected size for the
 smallest subpopulation. Based on the proportion of individuals from
 different sepsis response (SRS) groups previously reported in the
-context of a sepsis patients in intensive care, we recommend that this
+context of sepsis patients in intensive care, we recommend that this
 parameter be set to 20-30% the number of input samples. However, please
 not that this value might not be ideal if you are using this algorithm
 in a different patient population.
@@ -206,7 +206,7 @@ results from each iteration are compared to each other so as to assess
 their stability.
 
 SepstratifieR has a built in function for sensitivity analysis. You can
-run this function on the same input use for patient stratification, as
+run this function on the same input used for patient stratification, as
 shown below:
 
 ``` r
@@ -332,16 +332,17 @@ We begin by artificially increasing the expression levels of ARL14EP for
 the last 30 samples in the data set.
 
 ``` r
+set.seed(1)
 test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm(30, mean=8, sd=1)
 
 tail(test_data)
 #>      ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
-#> s145       10.024523        2.593291        3.894594        6.461857
-#> s146       10.366170        2.341779        3.322335        6.210055
-#> s147       11.349415        1.407762        4.102318        4.683783
-#> s148        8.372361        1.844906        2.369607        6.635254
-#> s149       10.841263        2.905245        3.302671        6.497499
-#> s150       11.371701        2.375474        4.327059        7.139205
+#> s145       12.210481        2.593291        3.894594        6.461857
+#> s146       10.589492        2.341779        3.322335        6.210055
+#> s147       10.803065        1.407762        4.102318        4.683783
+#> s148        8.617754        1.844906        2.369607        6.635254
+#> s149       10.793166        2.905245        3.302671        6.497499
+#> s150       11.207907        2.375474        4.327059        7.139205
 #>      ENSG00000137337 ENSG00000156414 ENSG00000115085
 #> s145        2.854003        4.667498        4.960511
 #> s146        2.817602        7.331545        5.882990

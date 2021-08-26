@@ -103,12 +103,12 @@ Futhermore, you can use SepstratifieR's built-in plotting function to check whet
 plotAlignedSamples(predictions)
 ```
 
-## Setting the number of mutual nearest neighbout (k)
-Perhaps the most important parameter to take into account when performing patient stratification is the number of mutual nearest neighbouts in the data alignment step (k). The impact of this parameter on data integration has been previously summarized in the documentation of mNN (https://rdrr.io/github/LTLA/batchelor/man/fastMNN.html).
+## Setting the number of mutual nearest neighbours (k)
+Perhaps the most important parameter to take into account when performing patient stratification is the number of mutual nearest neighbours in the data alignment step (k). The impact of this parameter on data integration has been previously summarized in the documentation of mNN (https://rdrr.io/github/LTLA/batchelor/man/mnnCorrect.html).
 
 In brief, lower values of 'k' will retain more substructure in the input data, with samples that do not closely resemble the reference set being flagged as outliers (i.e. samples for which no mutual nearest neighbor was found). Conversely, higher values of 'k' will result in a more lenient and aggressive merging, where samples are forced to align with the reference data even if they differ in certain aspects. Higher values of 'k' often result in better performance of data integration, but can also cause outliers to pass undetected, especially when a small group of samples is not well represented in the reference set. 
 
-The authors of mNN suggest that 'k' be set to the expected size for the smallest subpopulation. Based on the proportion of individuals from different sepsis response (SRS) groups previously reported in the context of a sepsis patients in intensive care, we recommend that this parameter be set to 20-30% the number of input samples. However, please not that this value might not be ideal if you are using this algorithm in a different patient population.
+The authors of mNN suggest that 'k' be set to the expected size for the smallest subpopulation. Based on the proportion of individuals from different sepsis response (SRS) groups previously reported in the context of sepsis patients in intensive care, we recommend that this parameter be set to 20-30% the number of input samples. However, please not that this value might not be ideal if you are using this algorithm in a different patient population.
 
 In the section below we explain how to assess if the predictions obtained with SepstratifieR are robust to the choice of 'k'.
 
@@ -117,7 +117,7 @@ It is often unclear which value of 'k' is appropriate for a specific analysis. M
 
 The best way to tackle both of these problems is by performing a sensitivity analysis. In this analysis, patient stratification and SRS prediction are repeatedly performed for a range of 'k' values, and the results from each iteration  are compared to each other so as to assess their stability. 
 
-SepstratifieR has a built in function for sensitivity analysis. You can run this function on the same input use for patient stratification, as shown below:
+SepstratifieR has a built in function for sensitivity analysis. You can run this function on the same input used for patient stratification, as shown below:
 ```{r sensitivity_analysis_example}
 sensitivity_results <- runSensitivityAnalysis(test_data)
 ```
@@ -128,6 +128,7 @@ Now let's see how this would look like if a group of outlier samples were presen
 
 We begin by artificially increasing the expression levels of ARL14EP for the last 30 samples in the data set.
 ```{r create_outliers}
+set.seed(1)
 test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm(30, mean=8, sd=1)
 
 tail(test_data)
