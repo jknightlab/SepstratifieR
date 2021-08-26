@@ -89,14 +89,14 @@ stratifyPatients <- function(dat, k=20, verbose=T){
   if(verbose) {
     cat("\nStratifying samples into sepsis response signature (SRS) groups...")
   }
-  SRS_preds <- stats::predict(SRS_model$finalModel, aligned_dat, type="response")
-  SRS_probs <- stats::predict(SRS_model$finalModel, aligned_dat, type="prob")
+  SRS_preds <- caret::predict.train(SRS_model, aligned_dat, type="raw")
+  SRS_probs <- caret::predict.train(SRS_model, aligned_dat, type="prob")
 
   if(verbose) {
     cat("\nAssigning samples a quantitative sepsis response signature score (SRSq)...")
   }
 
-  SRSq_preds <- stats::predict(SRSq_model$finalModel, aligned_dat)
+  SRSq_preds <- caret::predict.train(SRSq_model, aligned_dat)
 
   # Returning results
   res <- SepsisPrediction(
