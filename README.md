@@ -91,12 +91,16 @@ ENSG00000137337, ENSG00000156414, and ENSG00000115085.
 
 If more columns are present, they will simply be ignored.
 
-We recommend removing any technical batch effects from the input data
-set before calling this function. In addition, the predictor variables
-should have a roughly symmetric distribution. Thus, a transformation
-step is often useful. While this is often not a problem for microarray
-data sets, we recommend log-transforming any RNA-sequencing and qPCR
-data before prediction.
+Predictor variables should have the following units:
+
+Microarray = Normalized and log-transformed values
+
+RNA-seq = Normalized, log-transformed counts per million (i.e. log-cpm)
+
+qPCR = log-transformed values
+
+In addition, we recommend removing any technical batch effects from the
+input data set before using SepstratifieR.
 
 ## A brief example
 
@@ -212,7 +216,7 @@ shown below:
 ``` r
 sensitivity_results <- runSensitivityAnalysis(test_data)
 #> The k parameter will iterate through: 16 31 46 61 76 90 105 120 135 150 
-#> Predicting SRSq scors at all k values...
+#> Predicting SRSq scores at all k values...
 #> 
 #> Fetching predictor variables...
 #> 
@@ -372,7 +376,7 @@ estimated for the outlier samples abruptly decreases as ‘k’ increases.
 ``` r
 sensitivity_results <- runSensitivityAnalysis(test_data)
 #> The k parameter will iterate through: 16 31 46 61 76 90 105 120 135 150 
-#> Predicting SRSq scors at all k values...
+#> Predicting SRSq scores at all k values...
 #> 
 #> Fetching predictor variables...
 #> 

@@ -75,7 +75,18 @@ ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ENSG00000137
 
 If more columns are present, they will simply be ignored.
 
-We recommend removing any technical batch effects from the input data set before calling this function. In addition, the predictor variables should have a roughly symmetric distribution. Thus, a transformation step is often useful. While this is often not a problem for microarray data sets, we recommend log-transforming any RNA-sequencing and qPCR data before prediction.
+
+Predictor variables should have the following units:
+
+
+Microarray = Normalized and log-transformed values
+
+RNA-seq = Normalized, log-transformed counts per million (i.e. log-cpm)
+
+qPCR = log-transformed values
+
+
+In addition, we recommend removing any technical batch effects from the input data set before using SepstratifieR.
 
 ## A brief example
 Below is a basic example which shows you how to use this package to stratify a small set of patients into sepsis reponse groups:
