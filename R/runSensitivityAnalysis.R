@@ -49,7 +49,7 @@ runSensitivityAnalysis <- function(dat, plot=T, verbose=T) {
   }
 
   if(verbose) {
-    cat("Predicting SRSq scors at all k values...\n\n")
+    cat("Predicting SRSq scores at all k values...\n\n")
   }
   preds_SRSq <- data.frame(
     sapply(ks, function(k){
