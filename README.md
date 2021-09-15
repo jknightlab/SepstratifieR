@@ -91,13 +91,14 @@ ENSG00000137337, ENSG00000156414, and ENSG00000115085.
 
 If more columns are present, they will simply be ignored.
 
-Predictor variables should have the following units:
+We recommend that predictor variables have the following units:
 
-Microarray = Normalized and log-transformed values
+Microarray = Background-corrected, VSN-normalized, log-transformed
+intensity values
 
-RNA-seq = Normalized, log-transformed counts per million (i.e. log-cpm)
+RNA-seq = Log-transformed, counts per million (i.e. log-cpm)
 
-qPCR = log-transformed values
+qPCR = log-transformed intensity values
 
 In addition, we recommend removing any technical batch effects from the
 input data set before using SepstratifieR.
