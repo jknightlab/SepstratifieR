@@ -1,6 +1,7 @@
 #' Perform a sensitivity analysis to asssess the impact of 'k' on patient stratification
 #'
 #' @param dat A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.
+#' @param gene_set A character value specifying which gene signature to use for stratification. This must be one of two values: 'davenport' (uses the 7-gene signature described by Davenport et al.) or 'extended' (uses an extended 19 gene-signature).
 #' @param plot A logical value indicating whether or not to plot the visualisations obtained from sensitivity analysis. A working version of ggplot is needed for this functionality.
 #' @param verbose A logical value indicating whether or not to print a step by step summary of the function's progress.
 #'
@@ -39,9 +40,19 @@
 #'
 #' # Run sensitivity analysis
 #' runSensitivityAnalysis(test_data)
+#'
 
+runSensitivityAnalysis <- function(dat, gene_set="davenport", plot=T, verbose=T) {
 
-runSensitivityAnalysis <- function(dat, plot=T, verbose=T) {
+  # Verifying that requested gene set matches function options
+  if(!gene_set %in% c("davenport", "extended")) {
+    stop("The gene set specified is not valid. Please select one of the following: 'davenport', 'extended'\n")
+  }
+
+  # Defining predictor variables for the gene set of choice
+  if(verbose) {
+    cat("\nUsing the '", gene_set, "' gene signature for prediction...\n")
+  }
 
   ks <- round(stats::quantile(1:nrow(dat),  probs = seq(0.1, 1, by = 0.1)))
   if(verbose) {
@@ -53,7 +64,7 @@ runSensitivityAnalysis <- function(dat, plot=T, verbose=T) {
   }
   preds_SRSq <- data.frame(
     sapply(ks, function(k){
-      res <- SepstratifieR::stratifyPatients(dat, k, verbose=verbose)
+      res <- SepstratifieR::stratifyPatients(dat, gene_set, k, verbose=verbose)
       return(res@SRSq)
     }),
     row.names = rownames(dat))

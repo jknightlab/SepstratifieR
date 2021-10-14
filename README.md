@@ -8,7 +8,8 @@
 
 The goal of SepstratifieR is to stratify patients with suspected
 infection into groups with different molecular characteristics. This is
-done based on the expression level of 7 genes measured from whole blood.
+done based on the expression level of a small set of genes measured from
+whole blood.
 
 License: MIT + file LICENSE
 
@@ -37,7 +38,7 @@ devtools::install_github("jknightlab/SepstratifieR")
 This package is designed to stratify patients with suspected infectious
 disease into different molecular groups based on a sample of their gene
 expression from whole blood. These molecular groups are defined based on
-a signature of 7 genes, and are referred to as sepsis response signature
+a small gene signature, and are referred to as sepsis response signature
 (SRS) groups.
 
 There are three SRS groups, which are as follows:
@@ -48,7 +49,7 @@ These individuals are often at high risk of mortality.
 SRS2 = Composed of sepsis patients with an immunocompetent profile.
 These individuals are at lower risk of mortality.
 
-SRS3 = Formed of healthy individuals or patients with mild infection.
+SRS3 = Composed mostly of healthy individuals.
 
 For more information on how SRS groups were originally defined, please
 refer to the following publications:
@@ -84,8 +85,18 @@ package](./man/figures/README-method-diagram.png)
 
 The input expected by this function is a data frame object with rows
 corresponding to individuals/samples and columns corresponding to genes.
-This data frame must contain at least the following seven columns:
+This data frame must contain at least the following columns:
 
+1.  When using the 7-gene signature defined by Davenport et al:
+
+ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355,
+ENSG00000137337, ENSG00000156414, and ENSG00000115085.
+
+2.  When using the extended 19-gene signature:
+
+ENSG00000144659, ENSG00000103423, ENSG00000135372, ENSG00000079134,
+ENSG00000135972, ENSG00000087157, ENSG00000165006, ENSG00000111667,
+ENSG00000182670, ENSG00000097033, ENSG00000165733, ENSG00000103264,
 ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355,
 ENSG00000137337, ENSG00000156414, and ENSG00000115085.
 
@@ -96,9 +107,10 @@ We recommend that predictor variables have the following units:
 Microarray = Background-corrected, VSN-normalized, log-transformed
 intensity values
 
-RNA-seq = Log-transformed, counts per million (i.e. log-cpm)
+RNA-seq = Log-transformed counts per million (i.e. log-cpm)
 
-qPCR = log-transformed intensity values
+qPCR = log-transformed relative expression values (i.e. this is
+equivalent to negative Cq values)
 
 In addition, we recommend removing any technical batch effects from the
 input data set before using SepstratifieR.
@@ -115,23 +127,46 @@ library(SepstratifieR)
 # Load test data set
 data(test_data)
 head(test_data)
+#>    ENSG00000144659 ENSG00000103423 ENSG00000135372 ENSG00000079134
+#> s1        2.673567        3.236907        3.574778        2.708307
+#> s2        2.552632        3.394534        3.072023        2.656014
+#> s3        4.331399        4.569400        4.474664        4.071879
+#> s4        3.076774        3.637850        3.870475        3.334008
+#> s5        3.085142        3.680973        3.596578        3.101938
+#> s6        3.137340        3.888312        4.003193        3.568940
+#>    ENSG00000135972 ENSG00000087157 ENSG00000165006 ENSG00000111667
+#> s1        2.378041        8.936893        8.121977        4.188131
+#> s2        1.978933        8.557574        7.626752        3.840953
+#> s3        3.603559        6.096896        5.659749        5.298082
+#> s4        2.608770        7.711050        7.192709        4.907146
+#> s5        2.398672        8.060679        7.312355        4.164068
+#> s6        2.587801        7.967144        7.021835        4.475674
+#>    ENSG00000182670 ENSG00000097033 ENSG00000165733 ENSG00000103264
+#> s1        4.892583        9.068650        3.377368        2.630745
+#> s2        4.466144        8.565756        2.783253        3.084432
+#> s3        5.789816        6.553623        4.161501        3.961423
+#> s4        5.060853        8.483341        3.686282        3.231659
+#> s5        4.872291        8.500375        3.576689        2.520279
+#> s6        5.153679        8.616115        3.900714        3.318352
 #>    ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
-#> s1        3.319700        2.571562        3.775363        5.417076
-#> s2        3.595249        2.040987        5.165325        6.504772
-#> s3        3.295334        2.032406        5.172078        6.501616
-#> s4        2.670693        1.983178        3.387407        6.161274
-#> s5        2.080137        1.612451        3.287325        5.364442
-#> s6        3.319166        2.176933        3.643455        5.587000
+#> s1        3.333535        1.639094        4.335412        3.428269
+#> s2        2.886067        1.748837        3.973618        5.987232
+#> s3        3.772378        3.237889        4.544628        5.734668
+#> s4        3.418864        2.639844        4.240509        7.160660
+#> s5        2.285600        1.993234        3.451226        7.538943
+#> s6        3.376342        2.179106        4.651830        6.621307
 #>    ENSG00000137337 ENSG00000156414 ENSG00000115085
-#> s1        3.693679        7.985685        4.372800
-#> s2        4.365816        7.156300        5.829096
-#> s3        3.584690        7.473547        5.926678
-#> s4        2.945092        5.955904        4.463134
-#> s5        3.108978        8.490427        3.532612
-#> s6        4.068081        6.399496        5.358397
+#> s1        3.473401        7.595030        5.375783
+#> s2        2.900175        7.730813        5.320940
+#> s3        3.426866        3.161742        7.531077
+#> s4        3.085830        5.814416        5.944556
+#> s5        3.134954        4.493871        4.891739
+#> s6        3.531146        6.900173        5.872454
 
 # Stratify patients
 predictions <- stratifyPatients(test_data)
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -148,13 +183,14 @@ The results from this prediction look as follows:
 predictions
 #> SepsisPrediction
 #> 
+#> Gene set used:  davenport  gene set
 #> 150 samples
 #> 7 predictor variables
 #> 
 #> Predictor variables: ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ...
 #> Sample names: s1, s2, s3, s4, ...
-#> SRS: SRS1, SRS2, SRS2, SRS1, ...
-#> SRSq: 0.9136852, 0.7710878, 0.7948279, 0.8327578, ...
+#> SRS: SRS1, SRS1, SRS3, SRS2, ...
+#> SRSq: 0.8317026, 0.8871088, 0.1440521, 0.6774954, ...
 ```
 
 Futhermore, you can use SepstratifieR’s built-in plotting function to
@@ -166,6 +202,57 @@ plotAlignedSamples(predictions)
 ```
 
 <img src="man/figures/README-example_plot-1.png" width="100%" style="display: block; margin: auto;" />
+
+## Using a minimal or an extended gene signature for prediction
+
+SepstratifieR enables predictions based on two different gene
+signatures:
+
+1.  A minimal set of 7 genes defined by Davenport et al. in 2016
+2.  An extended set of 19 genes defined by Cano-Gamez et al. in 2021.
+    This extended set includes the 7 genes proposed by Davenport plus an
+    additional 12 genes derived from integrative analysis of RNA-seq and
+    microarray data for sepsis patients in the GAinS study.
+
+For further details on the definition of these signatures, please refer
+to the relevant publications.
+
+The user can specify which gene signature to use for prediction by
+simply assigning a value to the ‘gene\_set’ parameter. The default
+behaviour of SepstratifieR is to use the minimal 7-gene signature. This
+parameter can be modififed as illustrated bellow:
+
+``` r
+# Stratify patients based on the 7-gene signature (this is the default option)
+predictions <- stratifyPatients(test_data, gene_set = "davenport")
+#> 
+#> Using the 'davenport' gene signature for prediction...
+#> Fetching predictor variables...
+#> 
+#> Aligning data to the reference set...
+#> Number of nearest neighours set to k=20
+#> Identifying potential outlier samples...
+#> Stratifying samples into sepsis response signature (SRS) groups...
+#> Assigning samples a quantitative sepsis response signature score (SRSq)...
+#> ... done!
+
+# Stratify patients based on the 19-gene signature
+predictions_extended <- stratifyPatients(test_data, gene_set = "extended")
+#> 
+#> Using the 'extended' gene signature for prediction...
+#> Fetching predictor variables...
+#> 
+#> Aligning data to the reference set...
+#> Number of nearest neighours set to k=20
+#> Identifying potential outlier samples...
+#> Stratifying samples into sepsis response signature (SRS) groups...
+#> Assigning samples a quantitative sepsis response signature score (SRSq)...
+#> ... done!
+```
+
+IMPORTANT: Note that the extended gene signature was trained using
+RNA-seq and microarray measurements only. Thus, in its current state
+this signature should not be used to predict labels from qPCR data.
 
 ## Setting the number of mutual nearest neighbours (k)
 
@@ -216,9 +303,13 @@ shown below:
 
 ``` r
 sensitivity_results <- runSensitivityAnalysis(test_data)
+#> 
+#> Using the ' davenport ' gene signature for prediction...
 #> The k parameter will iterate through: 16 31 46 61 76 90 105 120 135 150 
 #> Predicting SRSq scores at all k values...
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -228,6 +319,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -237,6 +330,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -246,6 +341,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -255,6 +352,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -264,6 +363,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -273,6 +374,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -282,6 +385,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -291,6 +396,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -300,6 +407,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -341,20 +450,41 @@ set.seed(1)
 test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm(30, mean=8, sd=1)
 
 tail(test_data)
+#>      ENSG00000144659 ENSG00000103423 ENSG00000135372 ENSG00000079134
+#> s145        3.671828        3.625883        3.707559        3.436591
+#> s146        3.495398        4.306410        3.853202        3.628831
+#> s147        4.221127        3.883138        4.075091        3.424667
+#> s148        3.430073        4.308963        4.212526        3.798186
+#> s149        2.952592        3.588329        3.789029        3.365419
+#> s150        3.207951        4.085319        4.177532        3.300825
+#>      ENSG00000135972 ENSG00000087157 ENSG00000165006 ENSG00000111667
+#> s145        3.365678        7.965301        6.595675        5.656945
+#> s146        2.777025        7.567918        7.194763        4.438655
+#> s147        2.926692        8.262188        7.064954        4.687693
+#> s148        2.912047        6.581501        6.571095        4.794324
+#> s149        2.432039        7.744270        7.197536        4.439654
+#> s150        2.690963        7.667885        7.488754        4.742504
+#>      ENSG00000182670 ENSG00000097033 ENSG00000165733 ENSG00000103264
+#> s145        5.466750        7.431763        3.409727        3.478558
+#> s146        5.583912        8.232017        3.884039        3.233317
+#> s147        4.760768        8.204865        3.964135        3.130939
+#> s148        5.849326        8.036181        4.391221        3.138895
+#> s149        5.299999        8.467335        3.681907        3.156041
+#> s150        5.337387        8.356813        3.956901        3.300825
 #>      ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
-#> s145       12.210481        2.593291        3.894594        6.461857
-#> s146       10.589492        2.341779        3.322335        6.210055
-#> s147       10.803065        1.407762        4.102318        4.683783
-#> s148        8.617754        1.844906        2.369607        6.635254
-#> s149       10.793166        2.905245        3.302671        6.497499
-#> s150       11.207907        2.375474        4.327059        7.139205
+#> s145        11.85694        2.483887        3.499093        6.043421
+#> s146        11.43260        2.439172        4.912446        7.583854
+#> s147        11.34453        2.068779        4.585339        7.544762
+#> s148        10.20149        2.510794        4.590554        7.245859
+#> s149        11.02417        2.198658        5.147294        7.933451
+#> s150        11.90699        2.435448        4.449821        7.164623
 #>      ENSG00000137337 ENSG00000156414 ENSG00000115085
-#> s145        2.854003        4.667498        4.960511
-#> s146        2.817602        7.331545        5.882990
-#> s147        3.400939        7.829079        4.792407
-#> s148        1.904882        7.525440        5.080475
-#> s149        2.945531        7.103185        5.874289
-#> s150        2.751121        6.140037        5.385025
+#> s145        1.658643        4.493903        7.198202
+#> s146        3.994141        6.420672        6.386530
+#> s147        3.069508        4.296791        5.638428
+#> s148        4.169409        3.426893        5.763056
+#> s149        3.019305        4.034564        6.155998
+#> s150        3.525733        7.245536        5.926355
 ```
 
 These samples should now act as a subgruop of outliers and, indeed, they
@@ -376,9 +506,13 @@ estimated for the outlier samples abruptly decreases as ‘k’ increases.
 
 ``` r
 sensitivity_results <- runSensitivityAnalysis(test_data)
+#> 
+#> Using the ' davenport ' gene signature for prediction...
 #> The k parameter will iterate through: 16 31 46 61 76 90 105 120 135 150 
 #> Predicting SRSq scores at all k values...
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -388,6 +522,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -397,6 +533,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -406,6 +544,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -415,6 +555,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -424,6 +566,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -433,6 +577,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -442,6 +588,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -451,6 +599,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
@@ -460,6 +610,8 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> ... done!
 #> 
+#> 
+#> Using the 'davenport' gene signature for prediction...
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...

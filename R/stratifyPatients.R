@@ -4,6 +4,7 @@
 #' sepsis response score (SRSq) for each of them.
 #'
 #' @param dat A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.
+#' @param gene_set A character value specifying which gene signature to use for stratification. This must be one of two values: 'davenport' (uses the 7-gene signature described by Davenport et al.) or 'extended' (uses an extended 19 gene-signature).
 #' @param k A numeric value specifying the number of nearest neighbours used to align the input to the reference data. Higher values of k will result in a more aggressive integration but can result in missed outliers. In contrast, lower values of k will retain more substructure in the input data, but can result in some samples being incorrectly flagged as outliers. We recommend setting 'k' to a value between 20% and 30% of the total number of input samples. For more information on this paramter, see the general package documentation.
 #' @param verbose A logical value indicating whether or not to print a step by step summary of the function's progress.
 #'
@@ -44,25 +45,46 @@
 #' # Load test data set
 #' data(test_data)
 #'
-#' # Stratify patients
+#' # Stratify patients based on the signature originally described by Davenport et al.
 #' predictions <- stratifyPatients(test_data)
 #' predictions
+#'
+#' # Stratify patients based on an extended 19-gene signature
+#' predictions <- stratifyPatients(test_data, gene_set="extended")
+#' predictions
 
-stratifyPatients <- function(dat, k=20, verbose=T){
+stratifyPatients <- function(dat, gene_set="davenport", k=20, verbose=T){
+
+  # Verifying that requested gene set matches function options
+  if(!gene_set %in% c("davenport", "extended")) {
+    stop("Invalid 'gene_set' option. Please select one of the following: 'davenport', 'extended'\n")
+  }
+
+  # Defining predictor variables for the gene set of choice
+  if(verbose) {
+    cat("\nUsing the '", gene_set, "' gene signature for prediction...\n", sep="")
+  }
+
+  if(gene_set == "davenport") {
+    reference_set <- SepstratifieR::reference_set_davenport
+  }
+  if(gene_set == "extended") {
+    reference_set <- SepstratifieR::reference_set_extended
+  }
 
   # Verifying that predictors are present
   if(verbose) {
     cat("Fetching predictor variables...\n")
   }
 
-  if( sum(!colnames(SepstratifieR::reference_set) %in% colnames(dat)) > 0 ) {
+  if( sum(!colnames(reference_set) %in% colnames(dat)) > 0 ) {
     stop(paste("The following variables are missing from the input data set: ",
-               dplyr::setdiff(colnames(SepstratifieR::reference_set), colnames(dat)),
+               dplyr::setdiff(colnames(reference_set), colnames(dat)),
                "\n", sep="")
          )
   }
 
-  dat <- dat[,colnames(SepstratifieR::reference_set)]
+  dat <- dat[,colnames(reference_set)]
 
   # Aligning data to the reference set
   if(verbose) {
@@ -70,9 +92,9 @@ stratifyPatients <- function(dat, k=20, verbose=T){
     cat("\nNumber of nearest neighours set to k=", k, sep="")
   }
 
-  merged_set <- data.frame(rbind(dat, SepstratifieR::reference_set))
+  merged_set <- data.frame(rbind(dat, reference_set))
   alignment_batch <- c(rep(2,nrow(dat)),
-                       rep(1,nrow(SepstratifieR::reference_set)))
+                       rep(1,nrow(reference_set)))
   mnn_res <- batchelor::mnnCorrect(t(merged_set), batch = alignment_batch, merge.order = list(1,2), k=k)
 
   aligned_set <- data.frame(t(SummarizedExperiment::assay(mnn_res)))
@@ -86,6 +108,17 @@ stratifyPatients <- function(dat, k=20, verbose=T){
   outliers <- !(1:nrow(dat) %in% mnn_res@metadata$merge.info$pairs[[1]]$right)
 
   # Predicting SRS labels
+  ## Loading the models corresponding to the gene signature chosen by the user
+  if(gene_set == "davenport") {
+    SRS_model <- SRS_model_davenport
+    SRSq_model <- SRSq_model_davenport
+  }
+  if(gene_set == "extended") {
+    SRS_model <- SRS_model_extended
+    SRSq_model <- SRSq_model_extended
+  }
+
+  ## Predicting SRS and SRSq values
   if(verbose) {
     cat("\nStratifying samples into sepsis response signature (SRS) groups...")
   }
@@ -95,12 +128,12 @@ stratifyPatients <- function(dat, k=20, verbose=T){
   if(verbose) {
     cat("\nAssigning samples a quantitative sepsis response signature score (SRSq)...")
   }
-
   SRSq_preds <- caret::predict.train(SRSq_model, aligned_dat)
 
   # Returning results
   res <- SepsisPrediction(
 
+    gene_set=gene_set,
     predictors_raw=dat,
     predictors_transformed=aligned_dat,
     aligned_set=aligned_set,

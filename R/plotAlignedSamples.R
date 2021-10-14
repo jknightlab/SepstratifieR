@@ -30,7 +30,15 @@ plotAlignedSamples <- function(preds, pcs=c(1,2), color_by="SRS") {
     stop("Invalid 'color_by' option. Please chose a valid option among: SRS, SRSq, or mNN_outlier")
   }
 
-  # Creating annoatation table
+  # Fetching annotations for reference
+  if(preds@gene_set == "davenport") {
+    reference_set_annotations <- SepstratifieR::reference_set_davenport_annotations
+  }
+  if(preds@gene_set == "extended") {
+    reference_set_annotations <- SepstratifieR::reference_set_extended_annotations
+  }
+
+  # Creating annotation table
   pred_annotations <- data.frame(
     Study = rep("Input", nrow(preds@predictors_raw)),
     Assay = rep("Input", nrow(preds@predictors_raw)),

@@ -4,10 +4,12 @@
 \alias{runSensitivityAnalysis}
 \title{Perform a sensitivity analysis to asssess the impact of 'k' on patient stratification}
 \usage{
-runSensitivityAnalysis(dat, plot = T, verbose = T)
+runSensitivityAnalysis(dat, gene_set = "davenport", plot = T, verbose = T)
 }
 \arguments{
 \item{dat}{A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.}
+
+\item{gene_set}{A character value specifying which gene signature to use for stratification. This must be one of two values: 'davenport' (uses the 7-gene signature described by Davenport et al.) or 'extended' (uses an extended 19 gene-signature).}
 
 \item{plot}{A logical value indicating whether or not to plot the visualisations obtained from sensitivity analysis. A working version of ggplot is needed for this functionality.}
 
@@ -48,4 +50,5 @@ data(test_data)
 
 # Run sensitivity analysis
 runSensitivityAnalysis(test_data)
+
 }

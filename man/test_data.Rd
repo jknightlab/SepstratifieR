@@ -5,16 +5,27 @@
 \alias{test_data}
 \title{Whole blood gene expression measurements of 150 individuals}
 \format{
-A data frame with 150 rows and 7 variables:
+A data frame with 150 rows and 19 variables:
 \describe{
+\item{ENSG00000144659}{SLC25A38, log-transformed gene expression level}
+\item{ENSG00000103423}{DNAJA3, log-transformed gene expression level}
+\item{ENSG00000135372}{NAT10, log-transformed gene expression level}
+\item{ENSG00000079134}{THOC1, log-transformed gene expression level}
+\item{ENSG00000135972}{MRPS9, log-transformed gene expression level}
+\item{ENSG00000087157}{PGS1, log-transformed gene expression level}
+\item{ENSG00000165006}{UBAP1, log-transformed gene expression level}
+\item{ENSG00000111667}{USP5, log-transformed gene expression level}
+\item{ENSG00000182670}{TTC3, log-transformed gene expression level}
+\item{ENSG00000097033}{SH3GLB1, log-transformed gene expression level}
+\item{ENSG00000165733}{BMS1, log-transformed gene expression level}
+\item{ENSG00000103264}{FBXO31, log-transformed gene expression level}
 \item{ENSG00000152219}{ARL14EP, log-transformed gene expression level}
-\item{ENSG00000100814}{CCNB1IP1, log-transformedgene expression level}
+\item{ENSG00000100814}{CCNB1IP1, log-transformed gene expression level}
 \item{ENSG00000127334}{DYRK2, log-transformed gene expression level}
 \item{ENSG00000131355}{ADGRE3, log-transformed gene expression level}
 \item{ENSG00000137337}{MDC1, log-transformed gene expression level}
 \item{ENSG00000156414}{TDRD9, log-transformed gene expression level}
 \item{ENSG00000115085}{ZAP70, log-transformed gene expression level}
-
 ...
 }
 }
@@ -22,7 +33,7 @@ A data frame with 150 rows and 7 variables:
 test_data
 }
 \description{
-A data set containing gene expression measurements from whole blood for the 7 SRS signature genes.
+An example data set containing gene expression measurements from whole blood for 19 genes
 }
 \details{
 This data set is formed of 150 patients randomly selected from the Genomic Advances in Sepsis (GAinS) study (Oxford, UK).

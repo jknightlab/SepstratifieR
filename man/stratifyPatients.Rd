@@ -4,10 +4,12 @@
 \alias{stratifyPatients}
 \title{Assign samples to sepsis response signature groups}
 \usage{
-stratifyPatients(dat, k = 20, verbose = T)
+stratifyPatients(dat, gene_set = "davenport", k = 20, verbose = T)
 }
 \arguments{
 \item{dat}{A data.frame containing 'n' samples (rows) x 'm' genes (columns). It should contain at least 7 columns, corresponding to the genes listed in the main package documentation.}
+
+\item{gene_set}{A character value specifying which gene signature to use for stratification. This must be one of two values: 'davenport' (uses the 7-gene signature described by Davenport et al.) or 'extended' (uses an extended 19 gene-signature).}
 
 \item{k}{A numeric value specifying the number of nearest neighbours used to align the input to the reference data. Higher values of k will result in a more aggressive integration but can result in missed outliers. In contrast, lower values of k will retain more substructure in the input data, but can result in some samples being incorrectly flagged as outliers. We recommend setting 'k' to a value between 20\% and 30\% of the total number of input samples. For more information on this paramter, see the general package documentation.}
 
@@ -52,7 +54,11 @@ https://doi.org/10.1164/rccm.201608-1685OC
 # Load test data set
 data(test_data)
 
-# Stratify patients
+# Stratify patients based on the signature originally described by Davenport et al.
 predictions <- stratifyPatients(test_data)
+predictions
+
+# Stratify patients based on an extended 19-gene signature
+predictions <- stratifyPatients(test_data, gene_set="extended")
 predictions
 }

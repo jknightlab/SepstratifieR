@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of SepstratifieR is to stratify patients with suspected infection into groups with different molecular characteristics. This is done based on the expression level of 7 genes measured from whole blood.
+The goal of SepstratifieR is to stratify patients with suspected infection into groups with different molecular characteristics. This is done based on the expression level of a small set of genes measured from whole blood.
 
 License: MIT + file LICENSE
 
@@ -42,7 +42,7 @@ devtools::install_github("jknightlab/SepstratifieR")
 ## Details
 
 ### Background
-This package is designed to stratify patients with suspected infectious disease into different molecular groups based on a sample of their gene expression from whole blood. These molecular groups are defined based on a signature of 7 genes, and are referred to as sepsis response signature (SRS) groups.
+This package is designed to stratify patients with suspected infectious disease into different molecular groups based on a sample of their gene expression from whole blood. These molecular groups are defined based on a small gene signature, and are referred to as sepsis response signature (SRS) groups.
 
 There are three SRS groups, which are as follows:
 
@@ -50,7 +50,7 @@ SRS1 = Composed of sepsis patients with an immunosupressed profile. These indivi
 
 SRS2 = Composed of sepsis patients with an immunocompetent profile. These individuals are at lower risk of mortality.
 
-SRS3 = Formed of healthy individuals or patients with mild infection.
+SRS3 = Composed mostly of healthy individuals.
 
 
 For more information on how SRS groups were originally defined, please refer to the following publications:
@@ -69,10 +69,15 @@ The diagram below describes how the models used by SepstratifieR were built (top
 ![Schematic diagram of the analysis steps performed by the SepstratifieR package](./man/figures/README-method-diagram.png)
 
 ### Input format
-The input expected by this function is a data frame object with rows corresponding to individuals/samples and columns corresponding to genes. This data frame must contain at least the following seven columns: 
+The input expected by this function is a data frame object with rows corresponding to individuals/samples and columns corresponding to genes. This data frame must contain at least the following columns: 
 
+1. When using the 7-gene signature defined by Davenport et al:
 
 ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ENSG00000137337, ENSG00000156414, and ENSG00000115085. 
+
+2. When using the extended 19-gene signature:
+
+ENSG00000144659, ENSG00000103423, ENSG00000135372, ENSG00000079134, ENSG00000135972, ENSG00000087157, ENSG00000165006, ENSG00000111667, ENSG00000182670, ENSG00000097033, ENSG00000165733, ENSG00000103264, ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ENSG00000137337, ENSG00000156414, and ENSG00000115085. 
 
 
 If more columns are present, they will simply be ignored.
@@ -83,9 +88,9 @@ We recommend that predictor variables have the following units:
 
 Microarray = Background-corrected, VSN-normalized, log-transformed intensity values
 
-RNA-seq = Log-transformed, counts per million (i.e. log-cpm)
+RNA-seq = Log-transformed counts per million (i.e. log-cpm)
 
-qPCR = log-transformed intensity values
+qPCR = log-transformed relative expression values (i.e. this is equivalent to negative Cq values)
 
 
 In addition, we recommend removing any technical batch effects from the input data set before using SepstratifieR.
@@ -115,6 +120,26 @@ Futhermore, you can use SepstratifieR's built-in plotting function to check whet
 ```{r example_plot}
 plotAlignedSamples(predictions)
 ```
+
+## Using a minimal or an extended gene signature for prediction
+SepstratifieR enables predictions based on two different gene signatures:
+
+1. A minimal set of 7 genes defined by Davenport et al. in 2016
+2. An extended set of 19 genes defined by Cano-Gamez et al. in 2021. This extended set includes the 7 genes proposed by Davenport plus an additional 12 genes derived from integrative analysis of RNA-seq and microarray data for sepsis patients in the GAinS study. 
+
+For further details on the definition of these signatures, please refer to the relevant publications.
+
+The user can specify which gene signature to use for prediction by simply assigning a value to the 'gene_set' parameter. The default behaviour of SepstratifieR is to use the minimal 7-gene signature. This parameter can be modififed as illustrated bellow:
+
+```{r stratify_with_minimal_and_extended_gene_signatures, message=FALSE, warning=FALSE}
+# Stratify patients based on the 7-gene signature (this is the default option)
+predictions <- stratifyPatients(test_data, gene_set = "davenport")
+
+# Stratify patients based on the 19-gene signature
+predictions_extended <- stratifyPatients(test_data, gene_set = "extended")
+```
+
+IMPORTANT: Note that the extended gene signature was trained using RNA-seq and microarray measurements only. Thus, in its current state this signature should not be used to predict labels from qPCR data.
 
 ## Setting the number of mutual nearest neighbours (k)
 Perhaps the most important parameter to take into account when performing patient stratification is the number of mutual nearest neighbours in the data alignment step (k). The impact of this parameter on data integration has been previously summarized in the documentation of mNN (https://rdrr.io/github/LTLA/batchelor/man/mnnCorrect.html).

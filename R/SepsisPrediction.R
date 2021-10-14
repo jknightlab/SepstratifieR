@@ -1,6 +1,7 @@
 # Defining SepsisPrediction class
 setClass("SepsisPrediction",
-         slots=list(predictors_raw="data.frame",
+         slots=list(gene_set="character",
+                    predictors_raw="data.frame",
                     predictors_transformed = "data.frame",
                     aligned_set = "data.frame",
                     SRS = "factor",
@@ -14,6 +15,7 @@ setMethod("show",
           "SepsisPrediction",
           function(object) {
             cat("SepsisPrediction\n\n")
+            cat("Gene set used: ", object@gene_set, " gene set\n")
             cat(nrow(object@predictors_raw)," samples\n", sep="")
             cat(ncol(object@predictors_raw)," predictor variables\n\n", sep="")
             if(nrow(object@predictors_raw) > 0) {
@@ -30,10 +32,11 @@ setMethod("show",
 )
 
 # Creating a constructor SepsisPrediction method
-SepsisPrediction <- function(predictors_raw=NULL, predictors_transformed=NULL, aligned_set=NULL, SRS=NULL, SRS_probs=NULL, SRSq=NULL, mNN_outlier=NULL) {
+SepsisPrediction <- function(gene_set=NULL, predictors_raw=NULL, predictors_transformed=NULL, aligned_set=NULL, SRS=NULL, SRS_probs=NULL, SRSq=NULL, mNN_outlier=NULL) {
 
   methods::new(
     "SepsisPrediction",
+    gene_set = as.character(gene_set),
     predictors_raw = data.frame(predictors_raw),
     predictors_transformed = data.frame(predictors_transformed),
     aligned_set = data.frame(aligned_set),
