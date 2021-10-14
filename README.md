@@ -183,7 +183,7 @@ The results from this prediction look as follows:
 predictions
 #> SepsisPrediction
 #> 
-#> Gene set used:  davenport  gene set
+#> Gene set used:  davenport 
 #> 150 samples
 #> 7 predictor variables
 #> 
@@ -220,7 +220,7 @@ to the relevant publications.
 The user can specify which gene signature to use for prediction by
 simply assigning a value to the ‘gene\_set’ parameter. The default
 behaviour of SepstratifieR is to use the minimal 7-gene signature. This
-parameter can be modififed as illustrated bellow:
+parameter can be modified as illustrated bellow:
 
 ``` r
 # Stratify patients based on the 7-gene signature (this is the default option)

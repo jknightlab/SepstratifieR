@@ -15,7 +15,7 @@ setMethod("show",
           "SepsisPrediction",
           function(object) {
             cat("SepsisPrediction\n\n")
-            cat("Gene set used: ", object@gene_set, " gene set\n")
+            cat("Gene set used: ", object@gene_set, "\n")
             cat(nrow(object@predictors_raw)," samples\n", sep="")
             cat(ncol(object@predictors_raw)," predictor variables\n\n", sep="")
             if(nrow(object@predictors_raw) > 0) {

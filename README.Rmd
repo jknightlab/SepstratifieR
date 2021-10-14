@@ -129,7 +129,7 @@ SepstratifieR enables predictions based on two different gene signatures:
 
 For further details on the definition of these signatures, please refer to the relevant publications.
 
-The user can specify which gene signature to use for prediction by simply assigning a value to the 'gene_set' parameter. The default behaviour of SepstratifieR is to use the minimal 7-gene signature. This parameter can be modififed as illustrated bellow:
+The user can specify which gene signature to use for prediction by simply assigning a value to the 'gene_set' parameter. The default behaviour of SepstratifieR is to use the minimal 7-gene signature. This parameter can be modified as illustrated bellow:
 
 ```{r stratify_with_minimal_and_extended_gene_signatures, message=FALSE, warning=FALSE}
 # Stratify patients based on the 7-gene signature (this is the default option)
