@@ -109,8 +109,8 @@ intensity values
 
 RNA-seq = Log-transformed counts per million (i.e. log-cpm)
 
-qPCR = log-transformed relative expression values (i.e. this is
-equivalent to negative Cq values)
+qPCR = log-transformed relative expression values (i.e. equivalent to
+negative Cq values)
 
 In addition, we recommend removing any technical batch effects from the
 input data set before using SepstratifieR.
@@ -118,7 +118,7 @@ input data set before using SepstratifieR.
 ## A brief example
 
 Below is a basic example which shows you how to use this package to
-stratify a small set of patients into sepsis reponse groups:
+stratify a small set of patients into sepsis response groups:
 
 ``` r
 # Load package
