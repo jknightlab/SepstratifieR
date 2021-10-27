@@ -72,25 +72,35 @@ The diagram below describes how the models used by SepstratifieR were built (top
 The input expected by this function is a data frame object with rows corresponding to individuals/samples and columns corresponding to genes. This data frame must contain at least the following columns: 
 
 1. When using the 7-gene signature defined by Davenport et al:
-
-ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ENSG00000137337, ENSG00000156414, and ENSG00000115085. 
+```{r show_table_of_columns, results='asis', echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Column_name"=c("ENSG00000152219", "ENSG00000100814", "ENSG00000127334","ENSG00000131355","ENSG00000137337","ENSG00000156414","ENSG00000115085"),
+    "Gene_name"=c("ARL14EP", "CCNB1IP1", "DYRK2", "ADGRE3","MDC1","TDRD9","ZAP70")
+    )
+  )
+```
 
 2. When using the extended 19-gene signature:
-
-ENSG00000144659, ENSG00000103423, ENSG00000135372, ENSG00000079134, ENSG00000135972, ENSG00000087157, ENSG00000165006, ENSG00000111667, ENSG00000182670, ENSG00000097033, ENSG00000165733, ENSG00000103264, ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ENSG00000137337, ENSG00000156414, and ENSG00000115085. 
-
+```{r show_table_of_columns_extended_set, results='asis', echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Column_name"=c("ENSG00000144659", "ENSG00000103423", "ENSG00000135372", "ENSG00000079134", "ENSG00000135972", "ENSG00000087157", "ENSG00000165006", "ENSG00000111667", "ENSG00000182670", "ENSG00000097033", "ENSG00000165733", "ENSG00000103264","ENSG00000152219", "ENSG00000100814", "ENSG00000127334","ENSG00000131355","ENSG00000137337","ENSG00000156414","ENSG00000115085"),
+    "Gene_name"=c("SLC25A38","DNAJA3","NAT10","THOC1","MRPS9","PGS1","UBAP1","USP5","TTC3","SH3GLB1","BMS1","FBXO31","ARL14EP", "CCNB1IP1", "DYRK2", "ADGRE3","MDC1","TDRD9","ZAP70")
+             )
+  )
+```
 
 If more columns are present, they will simply be ignored.
 
 
 We recommend that predictor variables have the following units:
 
+**Microarray:** Background-corrected, VSN-normalized, log-transformed intensity values
 
-Microarray = Background-corrected, VSN-normalized, log-transformed intensity values
+**RNA-seq:** Log-transformed counts per million (i.e. log-cpm)
 
-RNA-seq = Log-transformed counts per million (i.e. log-cpm)
-
-qPCR = log-transformed relative expression values (i.e. equivalent to negative Cq values)
+**qPCR:** log-transformed relative expression values (i.e. equivalent to negative Cq values)
 
 
 In addition, we recommend removing any technical batch effects from the input data set before using SepstratifieR.

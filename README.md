@@ -89,27 +89,50 @@ This data frame must contain at least the following columns:
 
 1.  When using the 7-gene signature defined by Davenport et al:
 
-ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355,
-ENSG00000137337, ENSG00000156414, and ENSG00000115085.
+| Column\_name    | Gene\_name |
+|:----------------|:-----------|
+| ENSG00000152219 | ARL14EP    |
+| ENSG00000100814 | CCNB1IP1   |
+| ENSG00000127334 | DYRK2      |
+| ENSG00000131355 | ADGRE3     |
+| ENSG00000137337 | MDC1       |
+| ENSG00000156414 | TDRD9      |
+| ENSG00000115085 | ZAP70      |
 
 2.  When using the extended 19-gene signature:
 
-ENSG00000144659, ENSG00000103423, ENSG00000135372, ENSG00000079134,
-ENSG00000135972, ENSG00000087157, ENSG00000165006, ENSG00000111667,
-ENSG00000182670, ENSG00000097033, ENSG00000165733, ENSG00000103264,
-ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355,
-ENSG00000137337, ENSG00000156414, and ENSG00000115085.
+| Column\_name    | Gene\_name |
+|:----------------|:-----------|
+| ENSG00000144659 | SLC25A38   |
+| ENSG00000103423 | DNAJA3     |
+| ENSG00000135372 | NAT10      |
+| ENSG00000079134 | THOC1      |
+| ENSG00000135972 | MRPS9      |
+| ENSG00000087157 | PGS1       |
+| ENSG00000165006 | UBAP1      |
+| ENSG00000111667 | USP5       |
+| ENSG00000182670 | TTC3       |
+| ENSG00000097033 | SH3GLB1    |
+| ENSG00000165733 | BMS1       |
+| ENSG00000103264 | FBXO31     |
+| ENSG00000152219 | ARL14EP    |
+| ENSG00000100814 | CCNB1IP1   |
+| ENSG00000127334 | DYRK2      |
+| ENSG00000131355 | ADGRE3     |
+| ENSG00000137337 | MDC1       |
+| ENSG00000156414 | TDRD9      |
+| ENSG00000115085 | ZAP70      |
 
 If more columns are present, they will simply be ignored.
 
 We recommend that predictor variables have the following units:
 
-Microarray = Background-corrected, VSN-normalized, log-transformed
+**Microarray:** Background-corrected, VSN-normalized, log-transformed
 intensity values
 
-RNA-seq = Log-transformed counts per million (i.e. log-cpm)
+**RNA-seq:** Log-transformed counts per million (i.e. log-cpm)
 
-qPCR = log-transformed relative expression values (i.e. equivalent to
+**qPCR:** log-transformed relative expression values (i.e. equivalent to
 negative Cq values)
 
 In addition, we recommend removing any technical batch effects from the
