@@ -103,7 +103,7 @@ We recommend that predictor variables have the following units:
 **qPCR:** log-transformed relative expression values (i.e. equivalent to negative Cq values)
 
 
-In addition, we recommend removing any technical batch effects from the input data set before using SepstratifieR.
+In addition, any technical batch effects should be removedfrom the input data set before using SepstratifieR.
 
 ## A brief example
 Below is a basic example which shows you how to use this package to stratify a small set of patients into sepsis response groups:

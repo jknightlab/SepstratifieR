@@ -144,6 +144,14 @@ stratifyPatients <- function(dat, gene_set="davenport", k=20, verbose=T){
 
   )
 
+  # Adding sample names to predictions
+  if(verbose) {
+    cat("\nAdding sample names to object...")
+  }
+  names(res@SRS) <- rownames(dat)
+  names(res@SRSq) <- rownames(dat)
+  rownames(res@SRS_probs) <- rownames(dat)
+
   if(verbose) {
     cat("\n... done!\n\n")
   }
