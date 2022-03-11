@@ -37,7 +37,7 @@
 #' This object contains the following slots:
 #'
 #' \describe{
-#'  \item{SRS}{character variable indicating the SRS group projected to this sample}
+#'  \item{SRS}{factor variable indicating the SRS group projected to this sample}
 #'  \item{SRS_probs}{numeric variable containing estimates of the probability of this sample belonging to each SRS class, as obtained from kNN weighted cosine similarities.}
 #'  \item{SRSq}{numeric variable indicating the quantitative sepsis response score (SRSq) projected for this sample. An SRSq close to 0 indicates the individual is likely healthy, an SRSq close to 1 indicates the individual is at high risk of severe sepsis.}
 #'  \item{predictors}{numeric vriable containing the gene expression values used to predict SRS/SRSq, as inputed by the user.}
@@ -69,7 +69,7 @@ projectPatient <- function(dat, gene_set="davenport", k=20, verbose=T){
 
   # Defining predictor variables for the gene set of choice
   if(verbose) {
-    cat("\nUsing the '", gene_set, "' gene signature for prediction...\n", sep="")
+    cat("\nUsing the '", gene_set, "' gene signature for projection...\n", sep="")
   }
 
   if(gene_set == "davenport") {

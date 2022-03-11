@@ -100,12 +100,12 @@ We recommend that predictor variables have the following units:
 
 **RNA-seq:** Log-transformed counts per million (i.e. log-cpm)
 
-**qPCR:** log-transformed relative expression values (i.e. equivalent to negative Cq values)
+**qRT-PCR:** Negative Cq values
 
 
 In addition, any technical batch effects should be removedfrom the input data set before using SepstratifieR.
 
-## A brief example
+### A brief example
 Below is a basic example which shows you how to use this package to stratify a small set of patients into sepsis response groups:
 
 ```{r example}
@@ -177,7 +177,7 @@ Now let's see how this would look like if a group of outlier samples were presen
 We begin by artificially increasing the expression levels of ARL14EP for the last 30 samples in the data set.
 ```{r create_outliers}
 set.seed(1)
-test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm(30, mean=8, sd=1)
+test_data$ENSG00000152219[114:143] <- test_data$ENSG00000152219[114:143] + rnorm(30, mean=8, sd=1)
 
 tail(test_data)
 ```
@@ -194,6 +194,54 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 ```
 
 Under this last scenario, the sensitivity analysis suggests we should exclude at least a subset of the samples flagged as outliers. 
+
+## Working with single samples or limited sample sizes
+SepstratifieR relies on aligning samples to a reference gene expression set. This step requires the availability of information from multiple samples, which is used to identify shared patterns of variation between batches and achieve a high quality alignment. When dealing with a single sample, as well as in situations were only a limited number of samples is available, using the main SepstratifieR's functions is NOT recommended. This is because instability in batch alignment makes predictions unreliable. 
+
+Based on simulations and data subsampling, we estimate that the stratifyPatients() function should only be applied to data sets containing 25 or more samples.
+
+For situations where sample size is limited, we instead provide a purpose-built function which uses a 'lazy learning' approach to estimate SRS and SRSq for a given samples.
+This approach is based on identifying the samples in our reference set which are most similar to the sample of interest (i.e. nearest neighbours), and then "projecting" the SRS and SRSq labels of these nearest neighbours into the sample in question. Similarity to the reference set is estimated using cosine similarities, which are independent of scale differences and thus robust to technical variation. Moreover, projection is based on a "majority vote" system, where each nearest neighbour contributes information proportionally to its similarity to the sample of interest.
+
+The following diagram illustrates our lazy learning projection approach:
+
+[PENDING]
+
+### Model parameters and input variables
+Our lazy learning approach can be performed based on either of the two gene signatures, as specified by the user. Moreover,  the number of nearest neighbours (k) used to estimate SRS/SRSq from majority voting can also be specified.
+
+For this function, we recommend that predictor variables have the following units:
+
+**Microarray:** Background-corrected, VSN-normalized, log-transformed intensity values
+
+**RNA-seq:** Log-transformed counts per million (i.e. log-cpm)
+
+**qRT-PCR:** 2^(Negative Cq values)
+
+**IMPORTANT NOTES:**
+1. The expected units for qRT-PCR data are NOT the same in stratifyPatients() than in projectPatient(). The latter function expects positive values (i.e. 2^-Cq).
+2. The meaning of 'k' in this function is NOT the same as in stratifyPatients(). The latter uses k for alignment but not for prediction. For lazy learning, 'k' has a direct impact on prediction.
+
+### A brief example
+Below is an example of how to predict SRS/SRSq for a single isolated sample.
+
+Let's first choose one random sample from our test set:
+```{r choose_example_sample}
+test_sample <- test_data[sample(rownames(test_data),1),]
+```
+
+We can stratify this sample by SRS/SRSq by calling the projectPatient() function within SepstratifieR, as follows:
+```{r single_sample_mode}
+# Predict SRS and SRSq using kNN-based label projection
+prediction <- projectPatient(test_sample)
+```
+
+The resulting object, of class SepsisProjection, contains the SRS and SRSq values estimated using this approach, as well as metadata on how the algorithm was run:
+```{r print_sepsis_projection}
+prediction
+```
+
+Note that this function is not as accurate as stratifyPatients(), since the latter is based on cross-validated random forest models, for which accuracy is known and stable. In contrast, projectPatient() is not model based and is substantially more computationally intensive. Thus, we only recommend using this approach when less than 25 samples are available. 
 
 ## Contact
 Eddie Cano-Gamez:  ecg@well.ox.ac.uk

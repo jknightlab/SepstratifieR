@@ -132,13 +132,12 @@ intensity values
 
 **RNA-seq:** Log-transformed counts per million (i.e. log-cpm)
 
-**qPCR:** log-transformed relative expression values (i.e. equivalent to
-negative Cq values)
+**qRT-PCR:** Negative Cq values
 
 In addition, any technical batch effects should be removedfrom the input
 data set before using SepstratifieR.
 
-## A brief example
+### A brief example
 
 Below is a basic example which shows you how to use this package to
 stratify a small set of patients into sepsis response groups:
@@ -151,40 +150,40 @@ library(SepstratifieR)
 data(test_data)
 head(test_data)
 #>    ENSG00000144659 ENSG00000103423 ENSG00000135372 ENSG00000079134
-#> s1        2.673567        3.236907        3.574778        2.708307
-#> s2        2.552632        3.394534        3.072023        2.656014
-#> s3        4.331399        4.569400        4.474664        4.071879
-#> s4        3.076774        3.637850        3.870475        3.334008
-#> s5        3.085142        3.680973        3.596578        3.101938
-#> s6        3.137340        3.888312        4.003193        3.568940
+#> s1        4.692800        4.736014        5.443159        3.828598
+#> s2        5.013893        4.413963        5.140826        3.804591
+#> s3        4.212220        4.917711        5.154672        3.671660
+#> s4        2.938143        3.693315        4.255717        2.470483
+#> s5        4.431750        4.718650        5.326826        3.910956
+#> s6        3.919289        4.114919        4.461082        3.065047
 #>    ENSG00000135972 ENSG00000087157 ENSG00000165006 ENSG00000111667
-#> s1        2.378041        8.936893        8.121977        4.188131
-#> s2        1.978933        8.557574        7.626752        3.840953
-#> s3        3.603559        6.096896        5.659749        5.298082
-#> s4        2.608770        7.711050        7.192709        4.907146
-#> s5        2.398672        8.060679        7.312355        4.164068
-#> s6        2.587801        7.967144        7.021835        4.475674
+#> s1        2.977473        7.077379        6.377639        5.561227
+#> s2        3.052402        7.193405        6.995388        5.125931
+#> s3        3.455646        7.939844        6.848399        5.661574
+#> s4        1.642446        9.115725        7.271863        4.215087
+#> s5        3.344655        6.972575        6.678864        5.675333
+#> s6        2.074246        8.795017        6.937671        5.144748
 #>    ENSG00000182670 ENSG00000097033 ENSG00000165733 ENSG00000103264
-#> s1        4.892583        9.068650        3.377368        2.630745
-#> s2        4.466144        8.565756        2.783253        3.084432
-#> s3        5.789816        6.553623        4.161501        3.961423
-#> s4        5.060853        8.483341        3.686282        3.231659
-#> s5        4.872291        8.500375        3.576689        2.520279
-#> s6        5.153679        8.616115        3.900714        3.318352
+#> s1        6.648605        7.541566        5.047954        4.928851
+#> s2        6.404868        7.199108        4.764898        3.894049
+#> s3        6.497354        7.905404        5.142841        4.164078
+#> s4        5.576401        8.612519        3.824025        3.425956
+#> s5        6.484286        7.718506        4.971902        4.171239
+#> s6        5.933122        7.504945        4.194316        3.550335
 #>    ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
-#> s1        3.333535        1.639094        4.335412        3.428269
-#> s2        2.886067        1.748837        3.973618        5.987232
-#> s3        3.772378        3.237889        4.544628        5.734668
-#> s4        3.418864        2.639844        4.240509        7.160660
-#> s5        2.285600        1.993234        3.451226        7.538943
-#> s6        3.376342        2.179106        4.651830        6.621307
+#> s1        3.765825        2.723711        6.711303        6.461896
+#> s2        3.581115        2.723518        6.226455        7.230779
+#> s3        3.689515        2.609898        5.410223        5.412017
+#> s4        2.648860        1.657687        4.579567        7.341940
+#> s5        4.123084        2.629408        6.232329        5.868802
+#> s6        2.131015        2.108574        4.714273        6.712530
 #>    ENSG00000137337 ENSG00000156414 ENSG00000115085
-#> s1        3.473401        7.595030        5.375783
-#> s2        2.900175        7.730813        5.320940
-#> s3        3.426866        3.161742        7.531077
-#> s4        3.085830        5.814416        5.944556
-#> s5        3.134954        4.493871        4.891739
-#> s6        3.531146        6.900173        5.872454
+#> s1        5.136627        3.114777        8.016714
+#> s2        4.620764        3.802095        7.002473
+#> s3        4.951400        4.585588        6.192307
+#> s4        3.986742        6.316707        4.445492
+#> s5        4.737964        3.810283        6.879157
+#> s6        4.584105        5.820275        6.431018
 
 # Stratify patients
 predictions <- stratifyPatients(test_data)
@@ -208,13 +207,13 @@ predictions
 #> SepsisPrediction
 #> 
 #> Gene set used:  davenport 
-#> 150 samples
+#> 143 samples
 #> 7 predictor variables
 #> 
 #> Predictor variables: ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ...
 #> Sample names: s1, s2, s3, s4, ...
-#> SRS: SRS1, SRS1, SRS3, SRS2, ...
-#> SRSq: 0.8317026, 0.8871088, 0.1440521, 0.6774954, ...
+#> SRS: SRS3, SRS3, SRS2, SRS1, ...
+#> SRSq: 0.07342065, 0.2410302, 0.3857127, 0.8267178, ...
 ```
 
 Futhermore, you can use SepstratifieR’s built-in plotting function to
@@ -331,7 +330,7 @@ shown below:
 sensitivity_results <- runSensitivityAnalysis(test_data)
 #> 
 #> Using the ' davenport ' gene signature for prediction...
-#> The k parameter will iterate through: 16 31 46 61 76 90 105 120 135 150 
+#> The k parameter will iterate through: 15 29 44 58 72 86 100 115 129 143 
 #> Predicting SRSq scores at all k values...
 #> 
 #> 
@@ -339,7 +338,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=16
+#> Number of nearest neighours set to k=15
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -351,7 +350,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=31
+#> Number of nearest neighours set to k=29
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -363,7 +362,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=46
+#> Number of nearest neighours set to k=44
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -375,7 +374,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=61
+#> Number of nearest neighours set to k=58
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -387,7 +386,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=76
+#> Number of nearest neighours set to k=72
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -399,7 +398,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=90
+#> Number of nearest neighours set to k=86
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -411,7 +410,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=105
+#> Number of nearest neighours set to k=100
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -423,7 +422,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=120
+#> Number of nearest neighours set to k=115
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -435,7 +434,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=135
+#> Number of nearest neighours set to k=129
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -447,14 +446,14 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=150
+#> Number of nearest neighours set to k=143
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> Adding sample names to object...
 #> ... done!
 #> 
-#> Identifying mNN outliers at k=31...
+#> Identifying mNN outliers at k=29...
 #> Estimating variance in SRSq prediction for different values of k...Plotting SRSq predictions as a function of k...
 ```
 
@@ -483,44 +482,44 @@ the last 30 samples in the data set.
 
 ``` r
 set.seed(1)
-test_data$ENSG00000152219[121:150] <- test_data$ENSG00000152219[121:150] + rnorm(30, mean=8, sd=1)
+test_data$ENSG00000152219[114:143] <- test_data$ENSG00000152219[114:143] + rnorm(30, mean=8, sd=1)
 
 tail(test_data)
 #>      ENSG00000144659 ENSG00000103423 ENSG00000135372 ENSG00000079134
-#> s145        3.671828        3.625883        3.707559        3.436591
-#> s146        3.495398        4.306410        3.853202        3.628831
-#> s147        4.221127        3.883138        4.075091        3.424667
-#> s148        3.430073        4.308963        4.212526        3.798186
-#> s149        2.952592        3.588329        3.789029        3.365419
-#> s150        3.207951        4.085319        4.177532        3.300825
+#> s138        3.915896        4.142888        4.550090        3.432809
+#> s139        3.841592        3.838046        4.299008        3.056424
+#> s140        4.224488        4.128654        4.825778        3.525132
+#> s141        4.432159        3.845172        4.641201        3.590158
+#> s142        4.567482        4.815802        5.530656        3.729049
+#> s143        4.363877        4.465925        4.982700        3.860408
 #>      ENSG00000135972 ENSG00000087157 ENSG00000165006 ENSG00000111667
-#> s145        3.365678        7.965301        6.595675        5.656945
-#> s146        2.777025        7.567918        7.194763        4.438655
-#> s147        2.926692        8.262188        7.064954        4.687693
-#> s148        2.912047        6.581501        6.571095        4.794324
-#> s149        2.432039        7.744270        7.197536        4.439654
-#> s150        2.690963        7.667885        7.488754        4.742504
+#> s138        1.975244        8.415272        7.133359        4.565842
+#> s139        2.600997        8.952625        7.380804        4.457593
+#> s140        2.780442        8.158555        7.178084        5.036091
+#> s141        2.458304        7.974497        6.974679        5.012814
+#> s142        3.318740        6.210728        6.288433        5.671912
+#> s143        2.690685        7.566938        6.193921        5.038547
 #>      ENSG00000182670 ENSG00000097033 ENSG00000165733 ENSG00000103264
-#> s145        5.466750        7.431763        3.409727        3.478558
-#> s146        5.583912        8.232017        3.884039        3.233317
-#> s147        4.760768        8.204865        3.964135        3.130939
-#> s148        5.849326        8.036181        4.391221        3.138895
-#> s149        5.299999        8.467335        3.681907        3.156041
-#> s150        5.337387        8.356813        3.956901        3.300825
+#> s138        6.448115        7.868539        4.155435        3.551486
+#> s139        5.672482        8.718168        4.180824        3.421137
+#> s140        6.035116        8.190729        4.487655        4.006522
+#> s141        6.251814        7.602255        4.470171        3.565085
+#> s142        6.821453        7.099148        5.150154        4.738323
+#> s143        6.526056        7.010125        4.604899        4.163501
 #>      ENSG00000152219 ENSG00000100814 ENSG00000127334 ENSG00000131355
-#> s145        11.85694        2.483887        3.499093        6.043421
-#> s146        11.43260        2.439172        4.912446        7.583854
-#> s147        11.34453        2.068779        4.585339        7.544762
-#> s148        10.20149        2.510794        4.590554        7.245859
-#> s149        11.02417        2.198658        5.147294        7.933451
-#> s150        11.90699        2.435448        4.449821        7.164623
+#> s138       11.904400        2.369174        5.653310        7.222766
+#> s139       11.018487        1.777352        5.199707        6.928787
+#> s140       11.695622        2.318047        5.947188        7.787000
+#> s141        9.952713        2.409055        5.473638        7.166783
+#> s142       11.298369        3.011082        6.455832        6.675081
+#> s143       12.389283        2.372734        6.347841        7.299634
 #>      ENSG00000137337 ENSG00000156414 ENSG00000115085
-#> s145        1.658643        4.493903        7.198202
-#> s146        3.994141        6.420672        6.386530
-#> s147        3.069508        4.296791        5.638428
-#> s148        4.169409        3.426893        5.763056
-#> s149        3.019305        4.034564        6.155998
-#> s150        3.525733        7.245536        5.926355
+#> s138        4.246216        6.541095        6.245411
+#> s139        4.141095        5.764071        6.260288
+#> s140        4.203260        5.357629        6.673227
+#> s141        4.785670        3.899674        5.743222
+#> s142        4.840135        2.929434        6.970752
+#> s143        4.444932        4.016022        7.484469
 ```
 
 These samples should now act as a subgruop of outliers and, indeed, they
@@ -544,7 +543,7 @@ estimated for the outlier samples abruptly decreases as ‘k’ increases.
 sensitivity_results <- runSensitivityAnalysis(test_data)
 #> 
 #> Using the ' davenport ' gene signature for prediction...
-#> The k parameter will iterate through: 16 31 46 61 76 90 105 120 135 150 
+#> The k parameter will iterate through: 15 29 44 58 72 86 100 115 129 143 
 #> Predicting SRSq scores at all k values...
 #> 
 #> 
@@ -552,7 +551,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=16
+#> Number of nearest neighours set to k=15
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -564,7 +563,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=31
+#> Number of nearest neighours set to k=29
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -576,7 +575,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=46
+#> Number of nearest neighours set to k=44
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -588,7 +587,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=61
+#> Number of nearest neighours set to k=58
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -600,7 +599,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=76
+#> Number of nearest neighours set to k=72
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -612,7 +611,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=90
+#> Number of nearest neighours set to k=86
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -624,7 +623,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=105
+#> Number of nearest neighours set to k=100
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -636,7 +635,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=120
+#> Number of nearest neighours set to k=115
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -648,7 +647,7 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=135
+#> Number of nearest neighours set to k=129
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
@@ -660,14 +659,14 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 #> Fetching predictor variables...
 #> 
 #> Aligning data to the reference set...
-#> Number of nearest neighours set to k=150
+#> Number of nearest neighours set to k=143
 #> Identifying potential outlier samples...
 #> Stratifying samples into sepsis response signature (SRS) groups...
 #> Assigning samples a quantitative sepsis response signature score (SRSq)...
 #> Adding sample names to object...
 #> ... done!
 #> 
-#> Identifying mNN outliers at k=31...
+#> Identifying mNN outliers at k=29...
 #> Estimating variance in SRSq prediction for different values of k...Plotting SRSq predictions as a function of k...
 ```
 
@@ -681,6 +680,111 @@ sensitivity_results <- runSensitivityAnalysis(test_data)
 
 Under this last scenario, the sensitivity analysis suggests we should
 exclude at least a subset of the samples flagged as outliers.
+
+## Working with single samples or limited sample sizes
+
+SepstratifieR relies on aligning samples to a reference gene expression
+set. This step requires the availability of information from multiple
+samples, which is used to identify shared patterns of variation between
+batches and achieve a high quality alignment. When dealing with a single
+sample, as well as in situations were only a limited number of samples
+is available, using the main SepstratifieR’s functions is NOT
+recommended. This is because instability in batch alignment makes
+predictions unreliable.
+
+Based on simulations and data subsampling, we estimate that the
+stratifyPatients() function should only be applied to data sets
+containing 25 or more samples.
+
+For situations where sample size is limited, we instead provide a
+purpose-built function which uses a ‘lazy learning’ approach to estimate
+SRS and SRSq for a given samples. This approach is based on identifying
+the samples in our reference set which are most similar to the sample of
+interest (i.e. nearest neighbours), and then “projecting” the SRS and
+SRSq labels of these nearest neighbours into the sample in question.
+Similarity to the reference set is estimated using cosine similarities,
+which are independent of scale differences and thus robust to technical
+variation. Moreover, projection is based on a “majority vote” system,
+where each nearest neighbour contributes information proportionally to
+its similarity to the sample of interest.
+
+The following diagram illustrates our lazy learning projection approach:
+
+\[PENDING\]
+
+### Model parameters and input variables
+
+Our lazy learning approach can be performed based on either of the two
+gene signatures, as specified by the user. Moreover, the number of
+nearest neighbours (k) used to estimate SRS/SRSq from majority voting
+can also be specified.
+
+For this function, we recommend that predictor variables have the
+following units:
+
+**Microarray:** Background-corrected, VSN-normalized, log-transformed
+intensity values
+
+**RNA-seq:** Log-transformed counts per million (i.e. log-cpm)
+
+**qRT-PCR:** 2^(Negative Cq values)
+
+**IMPORTANT NOTES:** 1. The expected units for qRT-PCR data are NOT the
+same in stratifyPatients() than in projectPatient(). The latter function
+expects positive values (i.e. 2^-Cq). 2. The meaning of ‘k’ in this
+function is NOT the same as in stratifyPatients(). The latter uses k for
+alignment but not for prediction. For lazy learning, ‘k’ has a direct
+impact on prediction.
+
+### A brief example
+
+Below is an example of how to predict SRS/SRSq for a single isolated
+sample.
+
+Let’s first choose one random sample from our test set:
+
+``` r
+test_sample <- test_data[sample(rownames(test_data),1),]
+```
+
+We can stratify this sample by SRS/SRSq by calling the projectPatient()
+function within SepstratifieR, as follows:
+
+``` r
+# Predict SRS and SRSq using kNN-based label projection
+prediction <- projectPatient(test_sample)
+#> 
+#> Using the 'davenport' gene signature for projection...
+#> Fetching predictor variables...
+#> 
+#> Calculating similarity to reference samples...
+#> Projecting SRS/SRS based on nearest neighbours...
+#> Number of nearest neighours set to k=20
+#> Adding sample names to object...
+#> ... done!
+```
+
+The resulting object, of class SepsisProjection, contains the SRS and
+SRSq values estimated using this approach, as well as metadata on how
+the algorithm was run:
+
+``` r
+prediction
+#> SepsisProjection
+#> 
+#> Gene set used:  davenport 
+#> 7 predictor variables
+#> 
+#> Predictor variables: ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ...
+#> SRS: SRS2
+#> SRSq: 0.6932546
+```
+
+Note that this function is not as accurate as stratifyPatients(), since
+the latter is based on cross-validated random forest models, for which
+accuracy is known and stable. In contrast, projectPatient() is not model
+based and is substantially more computationally intensive. Thus, we only
+recommend using this approach when less than 25 samples are available.
 
 ## Contact
 
