@@ -33,9 +33,9 @@
 
 #' Metadata for the 7-gene whole blood gene expression data set
 #'
-#' A data set containing additional information for the 3,264 individuals contained in the reference set.
+#' A data set containing additional information for the 3,264 samples contained in the reference set.
 #'
-#' It is formed of 5 variables gathered for 3,264 individuals
+#' It is formed of 5 variables gathered for 3,264 samples
 #'
 #' This data set is useful for visualisations and is called internally by the plotting function plotAlignedSamples().
 #'
@@ -51,7 +51,7 @@
 #' }
 "reference_set_davenport_annotations"
 
-#' Whole blood gene expression measurements for 7 genes across 3,264 individuals
+#' Whole blood gene expression measurements for 7 genes across 3,264 samples
 #'
 #' A data set containing gene expression measurements from whole blood for a signature of 19 genes. This signature comprises the 7 SRS genes defined by Davenport et al plus a further 12 genes identified by Cano-Gamez et al. from microarray and RNA-seq data using canonical correlation analysis.
 #'
@@ -98,9 +98,9 @@
 
 #' Metadata for the 19-gene whole blood gene expression data set
 #'
-#' A data set containing additional information for the 3,264 individuals contained in the reference set.
+#' A data set containing additional information for the 3,264 samples contained in the reference set.
 #'
-#' It is formed of 5 variables gathered for 3,264 individuals
+#' It is formed of 5 variables gathered for 3,264 samples
 #'
 #' This data set is useful for visualisations and is called internally by the plotting function plotAlignedSamples().
 #'
@@ -117,18 +117,18 @@
 "reference_set_extended_annotations"
 
 
-#' Whole blood gene expression measurements of 150 individuals
+#' Whole blood gene expression measurements for 143 samples of COVID-19 patients and healthy volunteers
 #'
 #' An example data set containing gene expression measurements from whole blood for 19 genes
 #'
-#' This data set is formed of 150 patients randomly selected from the Genomic Advances in Sepsis (GAinS) study (Oxford, UK).
+#' This data set is formed of 149 samples obtained from 79 COVID-19 patients and 10 healthy volunteers from the COMBAT study (https://doi.org/10.5281/zenodo.6120249).
 #'
-#' The values reported in this data set were obtained after batch correction and log transformation of raw RNA-seq counts obtained using polyA-based RNA-sequencing.
+#' The values reported in this data set were obtained by log transformation of raw counts obtained from polyA-based RNA-sequencing.
 #'
-#' The main use of this data set is to serve as a small test set with which to assess the functionality of this package.
+#' The main use of this data set is to serve as a test set with which to assess the functionality of this package.
 #'
 #'
-#' @format A data frame with 150 rows and 19 variables:
+#' @format A data frame with 143 rows and 19 variables:
 #' \describe{
 #'   \item{ENSG00000144659}{SLC25A38, log-transformed gene expression level}
 #'   \item{ENSG00000103423}{DNAJA3, log-transformed gene expression level}

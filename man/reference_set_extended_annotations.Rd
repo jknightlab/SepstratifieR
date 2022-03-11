@@ -19,10 +19,10 @@ A data frame with 3264 rows and 5 variables:
 reference_set_extended_annotations
 }
 \description{
-A data set containing additional information for the 3,264 individuals contained in the reference set.
+A data set containing additional information for the 3,264 samples contained in the reference set.
 }
 \details{
-It is formed of 5 variables gathered for 3,264 individuals
+It is formed of 5 variables gathered for 3,264 samples
 
 This data set is useful for visualisations and is called internally by the plotting function plotAlignedSamples().
 }

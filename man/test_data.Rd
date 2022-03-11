@@ -3,9 +3,9 @@
 \docType{data}
 \name{test_data}
 \alias{test_data}
-\title{Whole blood gene expression measurements of 150 individuals}
+\title{Whole blood gene expression measurements for 143 samples of COVID-19 patients and healthy volunteers}
 \format{
-A data frame with 150 rows and 19 variables:
+A data frame with 143 rows and 19 variables:
 \describe{
 \item{ENSG00000144659}{SLC25A38, log-transformed gene expression level}
 \item{ENSG00000103423}{DNAJA3, log-transformed gene expression level}
@@ -36,10 +36,10 @@ test_data
 An example data set containing gene expression measurements from whole blood for 19 genes
 }
 \details{
-This data set is formed of 150 patients randomly selected from the Genomic Advances in Sepsis (GAinS) study (Oxford, UK).
+This data set is formed of 149 samples obtained from 79 COVID-19 patients and 10 healthy volunteers from the COMBAT study (https://doi.org/10.5281/zenodo.6120249).
 
-The values reported in this data set were obtained after batch correction and log transformation of raw RNA-seq counts obtained using polyA-based RNA-sequencing.
+The values reported in this data set were obtained by log transformation of raw counts obtained from polyA-based RNA-sequencing.
 
-The main use of this data set is to serve as a small test set with which to assess the functionality of this package.
+The main use of this data set is to serve as a test set with which to assess the functionality of this package.
 }
 \keyword{datasets}

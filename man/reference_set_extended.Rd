@@ -3,7 +3,7 @@
 \docType{data}
 \name{reference_set_extended}
 \alias{reference_set_extended}
-\title{Whole blood gene expression measurements for 7 genes across 3,264 individuals}
+\title{Whole blood gene expression measurements for 7 genes across 3,264 samples}
 \format{
 A data frame with 3264 rows and 19 variables:
 \describe{
