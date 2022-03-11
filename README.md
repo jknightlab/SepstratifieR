@@ -688,7 +688,7 @@ set. This step requires the availability of information from multiple
 samples, which is used to identify shared patterns of variation between
 batches and achieve a high quality alignment. When dealing with a single
 sample, as well as in situations were only a limited number of samples
-is available, using the main SepstratifieR’s functions is NOT
+is available, using the main SepstratifieR’s functions is not
 recommended. This is because instability in batch alignment makes
 predictions unreliable.
 
@@ -698,15 +698,15 @@ containing 25 or more samples.
 
 For situations where sample size is limited, we instead provide a
 purpose-built function which uses a ‘lazy learning’ approach to estimate
-SRS and SRSq for a given samples. This approach is based on identifying
-the samples in our reference set which are most similar to the sample of
-interest (i.e. nearest neighbours), and then “projecting” the SRS and
-SRSq labels of these nearest neighbours into the sample in question.
-Similarity to the reference set is estimated using cosine similarities,
-which are independent of scale differences and thus robust to technical
-variation. Moreover, projection is based on a “majority vote” system,
-where each nearest neighbour contributes information proportionally to
-its similarity to the sample of interest.
+SRS and SRSq. This approach is based on identifying the samples in our
+reference set which are most similar to the sample of interest
+(i.e. nearest neighbours), and then “projecting” the SRS and SRSq labels
+of these nearest neighbours into the sample in question. Similarity to
+the reference set is estimated using cosine similarities, which are
+independent of scale differences and thus robust to technical variation.
+Moreover, projection is based on a “majority vote” system, where each
+nearest neighbour contributes information proportionally to its
+similarity to the sample of interest.
 
 The following diagram illustrates our lazy learning projection approach:
 
@@ -729,12 +729,16 @@ intensity values
 
 **qRT-PCR:** 2^(Negative Cq values)
 
-**IMPORTANT NOTES:** 1. The expected units for qRT-PCR data are NOT the
-same in stratifyPatients() than in projectPatient(). The latter function
-expects positive values (i.e. 2^-Cq). 2. The meaning of ‘k’ in this
-function is NOT the same as in stratifyPatients(). The latter uses k for
-alignment but not for prediction. For lazy learning, ‘k’ has a direct
-impact on prediction.
+**IMPORTANT NOTES:**
+
+1.  The expected units for qRT-PCR data are NOT the same in
+    stratifyPatients() than in projectPatient(). The latter function
+    expects positive values (i.e. 2^-Cq).
+
+2.  The meaning of ‘k’ in this function is NOT the same as in
+    stratifyPatients(). The latter uses k for alignment but not for
+    prediction. For lazy learning, ‘k’ has a direct impact on
+    prediction.
 
 ### A brief example
 
