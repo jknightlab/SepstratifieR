@@ -708,9 +708,11 @@ Moreover, projection is based on a “majority vote” system, where each
 nearest neighbour contributes information proportionally to its
 similarity to the sample of interest.
 
-The following diagram illustrates our lazy learning projection approach:
+The following diagram illustrates our lazy learning approach for patient
+stratification:
 
-\[PENDING\]
+![Schematic diagram of the analysis steps performed by the SepstratifieR
+package](./man/figures/README-sample-projection-approach.png)
 
 ### Model parameters and input variables
 

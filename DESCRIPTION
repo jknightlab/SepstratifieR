@@ -1,6 +1,6 @@
 Package: SepstratifieR
 Title: Stratification of infectious disease patients by gene expression profile
-Version: 0.0.0.9000
+Version: 1.0
 Authors@R: 
     person(given = "Eddie",
            family = "Cano-Gamez",

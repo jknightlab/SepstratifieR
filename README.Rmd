@@ -203,9 +203,9 @@ Based on simulations and data subsampling, we estimate that the stratifyPatients
 For situations where sample size is limited, we instead provide a purpose-built function which uses a 'lazy learning' approach to estimate SRS and SRSq.
 This approach is based on identifying the samples in our reference set which are most similar to the sample of interest (i.e. nearest neighbours), and then "projecting" the SRS and SRSq labels of these nearest neighbours into the sample in question. Similarity to the reference set is estimated using cosine similarities, which are independent of scale differences and thus robust to technical variation. Moreover, projection is based on a "majority vote" system, where each nearest neighbour contributes information proportionally to its similarity to the sample of interest.
 
-The following diagram illustrates our lazy learning projection approach:
+The following diagram illustrates our lazy learning approach for patient stratification:
 
-[PENDING]
+![Schematic diagram of the analysis steps performed by the SepstratifieR package](./man/figures/README-sample-projection-approach.png)
 
 ### Model parameters and input variables
 Our lazy learning approach can be performed based on either of the two gene signatures, as specified by the user. Moreover,  the number of nearest neighbours (k) used to estimate SRS/SRSq from majority voting can also be specified.
