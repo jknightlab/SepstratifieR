@@ -686,40 +686,40 @@ exclude at least a subset of the samples flagged as outliers.
 SepstratifieR relies on aligning samples to a reference gene expression
 set. This step requires the availability of information from multiple
 samples, which is used to identify shared patterns of variation between
-batches and achieve a high quality alignment. When dealing with a single
-sample, as well as in situations were only a limited number of samples
-is available, using the main SepstratifieR’s functions is not
-recommended. This is because instability in batch alignment makes
-predictions unreliable.
+batches and achieve a high quality alignment. Due to this requirement,
+we do not recommend using the main functions in SepstratifieR when
+dealing with a single sample or a limited sample size. This is because
+instability in batch alignment makes these predictions unreliable.
 
 Based on simulations and data subsampling, we estimate that the
-stratifyPatients() function should only be applied to data sets
-containing 25 or more samples.
+stratifyPatients() function should only be applied to data sets over 25
+samples.
 
 For situations where sample size is limited, we instead provide a
 purpose-built function which uses a ‘lazy learning’ approach to estimate
 SRS and SRSq. This approach is based on identifying the samples in our
 reference set which are most similar to the sample of interest
-(i.e. nearest neighbours), and then “projecting” the SRS and SRSq labels
-of these nearest neighbours into the sample in question. Similarity to
-the reference set is estimated using cosine similarities, which are
-independent of scale differences and thus robust to technical variation.
-Moreover, projection is based on a “majority vote” system, where each
-nearest neighbour contributes information proportionally to its
+(i.e. their nearest neighbours), and then “projecting” the SRS and SRSq
+labels of these nearest neighbours into the sample of interest.
+Similarities between sample are estimated using cosine similarities,
+which are independent of scale differences and thus robust to technical
+variation. Projection is then done using a “majority vote” system, where
+each nearest neighbour contributes information proportionally to its
 similarity to the sample of interest.
 
 The following diagram illustrates our lazy learning approach for patient
 stratification:
 
-![Schematic diagram of the analysis steps performed by the SepstratifieR
-package](./man/figures/README-sample-projection-approach.png)
+![Schematic diagram of the lazy learning approach for predicting
+SRS/SRSq in individual
+samples](./man/figures/README-sample-projection-approach.png)
 
 ### Model parameters and input variables
 
-Our lazy learning approach can be performed based on either of the two
+Our lazy learning algorithm can be performed using either of the two
 gene signatures, as specified by the user. Moreover, the number of
-nearest neighbours (k) used to estimate SRS/SRSq from majority voting
-can also be specified.
+nearest neighbours (k) used to estimate SRS/SRSq by majority voting can
+also be specified.
 
 For this function, we recommend that predictor variables have the
 following units:
@@ -733,11 +733,11 @@ intensity values
 
 **IMPORTANT NOTES:**
 
-1.  The expected units for qRT-PCR data are NOT the same in
+1.  The expected units for qRT-PCR data are not the same in
     stratifyPatients() than in projectPatient(). The latter function
     expects positive values (i.e. 2^-Cq).
 
-2.  The meaning of ‘k’ in this function is NOT the same as in
+2.  The meaning of ‘k’ in this function is not the same as in
     stratifyPatients(). The latter uses k for alignment but not for
     prediction. For lazy learning, ‘k’ has a direct impact on
     prediction.
@@ -750,6 +750,7 @@ sample.
 Let’s first choose one random sample from our test set:
 
 ``` r
+set.seed(2)
 test_sample <- test_data[sample(rownames(test_data),1),]
 ```
 
@@ -782,8 +783,8 @@ prediction
 #> 7 predictor variables
 #> 
 #> Predictor variables: ENSG00000152219, ENSG00000100814, ENSG00000127334, ENSG00000131355, ...
-#> SRS: SRS2
-#> SRSq: 0.6932546
+#> SRS: SRS3
+#> SRSq: 0.1028843
 ```
 
 Note that this function is not as accurate as stratifyPatients(), since
